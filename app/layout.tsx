@@ -5,6 +5,9 @@ import { ClientLayoutWrapper } from '../src/components/ClientLayoutWrapper';
 export const metadata: Metadata = {
   title: 'عشك | أدوات منزلية',
   description: 'متجر عشك للأدوات المنزلية وأجهزة المطبخ',
+  icons: {
+    icon: '/eshk-logo.png',
+  },
 };
 
 export default function RootLayout({
