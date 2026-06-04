@@ -1,10 +1,10 @@
 export const categories = [
   { id: 1, name: 'أجهزة منزلية', icon: 'Home', image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=300&q=80' },
-  { id: 2, name: 'إلكترونيات وموبايلات', icon: 'Smartphone', image: 'https://images.unsplash.com/photo-1598327105666-5b89351cb31b?auto=format&fit=crop&w=300&q=80' },
+  { id: 2, name: 'إلكترونيات وموبايلات', icon: 'Smartphone', image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80' },
   { id: 3, name: 'سوبر ماركت', icon: 'ShoppingBasket', image: 'https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=300&q=80' },
   { id: 4, name: 'عناية وجمال', icon: 'Sparkles', image: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=300&q=80' },
   { id: 5, name: 'ألعاب أطفال', icon: 'Gamepad2', image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=300&q=80' },
-  { id: 6, name: 'أدوات مطبخ', icon: 'Utensils', image: 'https://images.unsplash.com/photo-1556910103-1c02745a872f?auto=format&fit=crop&w=300&q=80' },
+  { id: 6, name: 'أدوات مطبخ', icon: 'Utensils', image: 'https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=300&q=80' },
 ];
 
 export const products = [
