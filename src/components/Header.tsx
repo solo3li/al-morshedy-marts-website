@@ -15,7 +15,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         {/* Logo */}
         <div className="flex items-center justify-between w-full md:w-auto">
           <Link href="/" className="flex items-center">
-             <img src="/eshk-logo.png" alt="عشك" className="h-10 object-contain" />
+            <img src="/eshk-logo.png" alt="عشك" className="h-10 object-contain" />
           </Link>
           <div className="md:hidden flex space-x-3 rtl:space-x-reverse">
             <ShoppingCart className="w-6 h-6 text-gray-700" />
@@ -31,8 +31,8 @@ export function Header({ onMenuClick }: HeaderProps) {
               <option>أجهزة منزلية</option>
               <option>أدوات المطبخ</option>
             </select>
-            <input 
-              type="text" 
+            <input
+              type="text"
               placeholder="ابحث عن المنتجات، العلامات التجارية..."
               className="w-full border border-gray-300 py-2 px-4 focus:outline-none focus:border-red-500 rounded-md md:rounded-r-none"
             />
@@ -64,14 +64,14 @@ export function Header({ onMenuClick }: HeaderProps) {
       {/* Navigation Menu */}
       <div className="bg-blue-900 text-white px-4 md:px-8">
         <div className="flex items-center">
-          <button 
+          <button
             onClick={onMenuClick}
             className="bg-red-600 flex items-center gap-2 px-4 py-3 font-bold hover:bg-red-700 transition"
           >
             <Menu className="w-5 h-5" />
             تصفح الأقسام
           </button>
-          
+
           <nav className="hidden md:flex items-center ml-auto rtl:mr-6 space-x-6 rtl:space-x-reverse font-medium">
             <Link href="/" className="hover:text-red-400 transition py-3">عروض اليوم</Link>
             <Link href="/products" className="hover:text-red-400 transition py-3">أجهزة منزلية</Link>
