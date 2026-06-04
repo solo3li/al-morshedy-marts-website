@@ -1,4 +1,4 @@
-import { Search, ShoppingCart, User, Heart, Menu, Phone, MapPin } from 'lucide-react';
+import { Search, ShoppingCart, User, Heart, Menu } from 'lucide-react';
 import Link from 'next/link';
 
 
@@ -9,24 +9,6 @@ interface HeaderProps {
 export function Header({ onMenuClick }: HeaderProps) {
   return (
     <header className="w-full bg-white shadow-sm">
-      {/* Top Bar */}
-      <div className="bg-gray-100 text-gray-600 text-xs py-2 px-4 md:px-8 flex justify-between items-center hidden md:flex">
-        <div className="flex space-x-4 rtl:space-x-reverse items-center">
-          <span className="flex items-center hover:text-red-600 cursor-pointer transition">
-            <Phone className="w-3 h-3 ml-1" />
-            16111
-          </span>
-          <span className="flex items-center hover:text-red-600 cursor-pointer transition">
-            <MapPin className="w-3 h-3 ml-1" />
-            الفروع
-          </span>
-        </div>
-        <div className="flex space-x-4 rtl:space-x-reverse items-center">
-          <Link href="#" className="hover:text-red-600 transition">بيع على عشك</Link>
-          <Link href="#" className="hover:text-red-600 transition">تتبع طلبك</Link>
-          <span className="cursor-pointer font-bold">English</span>
-        </div>
-      </div>
 
       {/* Main Header */}
       <div className="py-4 px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
