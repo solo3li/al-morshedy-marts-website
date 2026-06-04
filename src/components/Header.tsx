@@ -43,7 +43,7 @@ export function Header({ onMenuClick }: HeaderProps) {
         </div>
 
         {/* Actions */}
-        <div className="hidden md:flex items-center space-x-6 rtl:space-x-reverse">
+        <div className="hidden md:flex items-center gap-6 shrink-0">
           <div className="flex flex-col items-center cursor-pointer hover:text-red-600 transition">
             <User className="w-6 h-6 text-gray-700" />
             <span className="text-xs font-medium mt-1">حسابي</span>
