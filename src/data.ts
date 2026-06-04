@@ -15,7 +15,7 @@ export const products = [
     price: 550,
     oldPrice: 650,
     discount: 15,
-    image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/hair_straightener.png',
     rating: 4.8,
     reviews: 124,
     badge: 'الأكثر مبيعاً'
@@ -27,7 +27,7 @@ export const products = [
     price: 590,
     oldPrice: null,
     discount: null,
-    image: 'https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/electric_hair_brush.png',
     rating: 4.6,
     reviews: 89
   },
@@ -38,7 +38,7 @@ export const products = [
     price: 800,
     oldPrice: 950,
     discount: 16,
-    image: 'https://images.unsplash.com/photo-1585515320310-259814833e62?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/stainless_chopper.png',
     rating: 4.9,
     reviews: 210,
     badge: 'عرض خاص'
@@ -50,7 +50,7 @@ export const products = [
     price: 9500,
     oldPrice: 10500,
     discount: 10,
-    image: 'https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/stand_mixer.png',
     rating: 4.7,
     reviews: 45
   },
@@ -61,7 +61,7 @@ export const products = [
     price: 3500,
     oldPrice: null,
     discount: null,
-    image: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/vacuum_cleaner.png',
     rating: 4.5,
     reviews: 67
   },
@@ -72,7 +72,7 @@ export const products = [
     price: 4600,
     oldPrice: 5200,
     discount: 12,
-    image: 'https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/air_fryer.png',
     rating: 4.8,
     reviews: 134,
     badge: 'وصل حديثاً'
@@ -84,7 +84,7 @@ export const products = [
     price: 5000,
     oldPrice: 5800,
     discount: 14,
-    image: 'https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/espresso_machine.png',
     rating: 4.9,
     reviews: 88
   },
@@ -95,7 +95,7 @@ export const products = [
     price: 1000,
     oldPrice: 1200,
     discount: 17,
-    image: 'https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=600&q=80',
+    image: '/images/products/glass_blender.png',
     rating: 4.3,
     reviews: 42
   }
