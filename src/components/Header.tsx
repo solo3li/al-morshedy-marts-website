@@ -72,7 +72,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             تصفح الأقسام
           </button>
 
-          <nav className="hidden md:flex items-center ml-auto rtl:mr-6 space-x-6 rtl:space-x-reverse font-medium">
+          <nav className="hidden md:flex items-center ml-auto rtl:mr-6 gap-6 font-medium">
             <Link href="/" className="hover:text-red-400 transition py-3">عروض اليوم</Link>
             <Link href="/products" className="hover:text-red-400 transition py-3">أجهزة منزلية</Link>
             <Link href="/products" className="hover:text-red-400 transition py-3">أدوات المطبخ</Link>
