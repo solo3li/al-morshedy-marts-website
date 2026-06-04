@@ -8,8 +8,8 @@ export function Footer() {
           
           {/* About & Contact */}
           <div>
-            <div className="text-red-600 text-3xl font-extrabold tracking-tight mb-4">
-              أسواق<span className="text-blue-900">المرشدي</span>
+            <div className="mb-4">
+              <img src="/eshk-logo.png" alt="عشك" className="h-12 object-contain" />
             </div>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
               وجهتك الأولى للتسوق في مصر. نقدم لك أفضل المنتجات بأسعار تنافسية وجودة عالية في جميع الأقسام من أجهزة منزلية وإلكترونيات وسوبر ماركت.
@@ -21,7 +21,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-red-600" />
-                <span>info@almorshedymarts.com</span>
+                <span>info@eshak.com</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-red-600" />
@@ -48,7 +48,7 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-gray-600">
               <li><a href="#" className="hover:text-red-600 transition">من نحن</a></li>
               <li><a href="#" className="hover:text-red-600 transition">الوظائف</a></li>
-              <li><a href="#" className="hover:text-red-600 transition">بيع على المرشدي</a></li>
+              <li><a href="#" className="hover:text-red-600 transition">بيع على عشك</a></li>
               <li><a href="#" className="hover:text-red-600 transition">الشروط والأحكام</a></li>
               <li><a href="#" className="hover:text-red-600 transition">سياسة الخصوصية</a></li>
             </ul>
@@ -93,7 +93,7 @@ export function Footer() {
       {/* Copyright */}
       <div className="bg-gray-100 py-4 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 gap-3">
-          <p>جميع الحقوق محفوظة © {new Date().getFullYear()} أسواق المرشدي.</p>
+          <p>جميع الحقوق محفوظة © {new Date().getFullYear()} عشك.</p>
           <div className="flex gap-2">
             <span className="font-bold text-gray-400 text-lg mx-1">VISA</span>
             <span className="font-bold text-gray-400 text-lg mx-1">MasterCard</span>
