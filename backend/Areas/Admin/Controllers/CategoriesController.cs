@@ -12,10 +12,12 @@ namespace BackendAPI.Areas.Admin.Controllers
     public class CategoriesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly BackendAPI.Services.IImageService _imageService;
 
-        public CategoriesController(AppDbContext context)
+        public CategoriesController(AppDbContext context, BackendAPI.Services.IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         public async Task<IActionResult> Index()
@@ -30,11 +32,25 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(Category category, IFormFile? imageFile)
         {
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) category.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    return View(category);
+                }
+            }
+
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
-            TempData["Success"] = "تم إضافة القسم بنجاح";
+            TempData["Success"] = "تمت إضافة القسم بنجاح";
             return RedirectToAction(nameof(Index));
         }
 
@@ -46,13 +62,27 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Category category)
+        public async Task<IActionResult> Edit(int id, Category category, IFormFile? imageFile)
         {
             if (id != category.Id) return NotFound();
 
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) category.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    return View(category);
+                }
+            }
+
             _context.Update(category);
             await _context.SaveChangesAsync();
-            TempData["Success"] = "تم تعديل القسم بنجاح";
+            TempData["Success"] = "تم التعديل بنجاح";
             return RedirectToAction(nameof(Index));
         }
 

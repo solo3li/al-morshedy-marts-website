@@ -1,0 +1,44 @@
+@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "إعدادات رفع الصور (Cloudinary)";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-cloud-arrow-up"></i> إعدادات سحابة Cloudinary</h5>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            إذا لم تقم بملء هذه البيانات، لن تتمكن من رفع الصور مباشرة من جهازك إلى النظام، وسيتوجب عليك وضع روابط الصور يدوياً.
+            للحصول على هذه البيانات قم بالتسجيل مجاناً في موقع <strong>Cloudinary.com</strong>.
+        </div>
+        <form method="post" action="/Admin/Settings/UpdateCloudinary">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Cloud Name</label>
+                <input type="text" name="cloudName" class="form-control" value="@(Model.ContainsKey("Cloudinary_CloudName") ? Model["Cloudinary_CloudName"] : "")" />
+                <div class="form-text text-muted">الاسم الفريد للمساحة الخاصة بك.</div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">API Key</label>
+                <input type="text" name="apiKey" class="form-control" value="@(Model.ContainsKey("Cloudinary_ApiKey") ? Model["Cloudinary_ApiKey"] : "")" />
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">API Secret</label>
+                <input type="password" name="apiSecret" class="form-control" value="@(Model.ContainsKey("Cloudinary_ApiSecret") ? Model["Cloudinary_ApiSecret"] : "")" />
+                <div class="form-text text-danger">احتفظ بهذا الرمز سرياً جداً، أي شخص يمتلكه يستطيع التحكم بملفاتك.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100"><i class="bi bi-save"></i> حفظ الإعدادات</button>
+        </form>
+    </div>
+</div>

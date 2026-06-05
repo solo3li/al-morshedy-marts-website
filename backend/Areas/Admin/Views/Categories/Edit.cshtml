@@ -5,7 +5,7 @@
 
 <div class="card shadow-sm max-w-2xl mx-auto">
     <div class="card-body">
-        <form method="post" action="/Admin/Categories/Edit/@Model.Id">
+        <form method="post" action="/Admin/Categories/Edit/@Model.Id" enctype="multipart/form-data">
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="row g-3">
                 <div class="col-md-6">
@@ -16,10 +16,14 @@
                     <label class="form-label">الأيقونة (مثال: Home)</label>
                     <input type="text" name="Icon" value="@Model.Icon" class="form-control" required />
                 </div>
-                <div class="col-md-12">
-                    <label class="form-label">رابط الصورة</label>
-                    <input type="url" name="Image" value="@Model.Image" class="form-control" required />
-                </div>
+                <div class="mb-3">
+                <label class="form-label">الصورة (رفع ملف جديد)</label>
+                <input type="file" name="imageFile" class="form-control" accept="image/*" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">رابط الصورة الحالية</label>
+                <input type="url" name="Image" value="@Model.Image" class="form-control" required />
+            </div>
                 <div class="col-12 mt-4 text-end">
                     <a href="/Admin/Categories" class="btn btn-secondary">إلغاء</a>
                     <button type="submit" class="btn btn-primary">حفظ التعديلات</button>

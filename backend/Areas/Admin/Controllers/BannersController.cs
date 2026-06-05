@@ -11,10 +11,12 @@ namespace BackendAPI.Areas.Admin.Controllers
     public class BannersController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly BackendAPI.Services.IImageService _imageService;
 
-        public BannersController(AppDbContext context)
+        public BannersController(AppDbContext context, BackendAPI.Services.IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         public async Task<IActionResult> Index()
@@ -28,8 +30,22 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Banner banner)
+        public async Task<IActionResult> Create(Banner banner, IFormFile? imageFile)
         {
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) banner.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    return View(banner);
+                }
+            }
+
             _context.Banners.Add(banner);
             await _context.SaveChangesAsync();
             TempData["Success"] = "تم إضافة البانر بنجاح";
@@ -44,9 +60,24 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Banner banner)
+        public async Task<IActionResult> Edit(int id, Banner banner, IFormFile? imageFile)
         {
             if (id != banner.Id) return NotFound();
+
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) banner.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    return View(banner);
+                }
+            }
+
             _context.Update(banner);
             await _context.SaveChangesAsync();
             TempData["Success"] = "تم التعديل بنجاح";

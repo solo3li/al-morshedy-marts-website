@@ -5,7 +5,7 @@
 
 <div class="card shadow-sm max-w-2xl mx-auto">
     <div class="card-body">
-        <form method="post" action="/Admin/Banners/Create">
+        <form method="post" action="/Admin/Banners/Create" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label">العنوان</label>
                 <input type="text" name="Title" class="form-control" />
@@ -15,8 +15,12 @@
                 <input type="text" name="Subtitle" class="form-control" />
             </div>
             <div class="mb-3">
-                <label class="form-label">رابط الصورة</label>
-                <input type="url" name="Image" class="form-control" required />
+                <label class="form-label">الصورة (رفع ملف)</label>
+                <input type="file" name="imageFile" class="form-control" accept="image/*" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">رابط الصورة (اختياري)</label>
+                <input type="url" name="Image" class="form-control" />
             </div>
             <div class="text-end">
                 <a href="/Admin/Banners" class="btn btn-secondary">إلغاء</a>

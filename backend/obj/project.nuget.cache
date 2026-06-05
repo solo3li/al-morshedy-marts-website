@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "4z+5Nynk0tE=",
+  "dgSpecHash": "t3ppn/yQN6A=",
   "success": true,
   "projectFilePath": "C:\\Users\\solo\\Desktop\\eshak\\backend\\BackendAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\solo\\.nuget\\packages\\cloudinarydotnet\\1.29.1\\cloudinarydotnet.1.29.1.nupkg.sha512",
     "C:\\Users\\solo\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\solo\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\10.0.8\\microsoft.aspnetcore.authentication.jwtbearer.10.0.8.nupkg.sha512",
     "C:\\Users\\solo\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\10.0.8\\microsoft.aspnetcore.identity.entityframeworkcore.10.0.8.nupkg.sha512",

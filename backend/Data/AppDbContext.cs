@@ -16,6 +16,7 @@ namespace BackendAPI.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<AllowedOrigin> AllowedOrigins { get; set; }
+        public DbSet<SystemSetting> SystemSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -52,6 +53,13 @@ namespace BackendAPI.Data
             // Seed AllowedOrigins
             builder.Entity<AllowedOrigin>().HasData(
                 new AllowedOrigin { Id = 1, Url = "http://localhost:3000" }
+            );
+
+            // Seed SystemSettings
+            builder.Entity<SystemSetting>().HasData(
+                new SystemSetting { Key = "Cloudinary_CloudName", Value = "" },
+                new SystemSetting { Key = "Cloudinary_ApiKey", Value = "" },
+                new SystemSetting { Key = "Cloudinary_ApiSecret", Value = "" }
             );
         }
     }

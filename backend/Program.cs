@@ -54,6 +54,8 @@ builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
+builder.Services.AddScoped<BackendAPI.Services.IImageService, BackendAPI.Services.CloudinaryImageService>();
+
 // Controllers & CORS
 builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>

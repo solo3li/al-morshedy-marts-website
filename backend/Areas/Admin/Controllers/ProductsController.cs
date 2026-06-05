@@ -12,10 +12,12 @@ namespace BackendAPI.Areas.Admin.Controllers
     public class ProductsController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly BackendAPI.Services.IImageService _imageService;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(AppDbContext context, BackendAPI.Services.IImageService imageService)
         {
             _context = context;
+            _imageService = imageService;
         }
 
         public async Task<IActionResult> Index()
@@ -31,8 +33,23 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Product product)
+        public async Task<IActionResult> Create(Product product, IFormFile? imageFile)
         {
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) product.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    ViewBag.Categories = await _context.Categories.ToListAsync();
+                    return View(product);
+                }
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
             TempData["Success"] = "تم إضافة المنتج بنجاح";
@@ -49,9 +66,24 @@ namespace BackendAPI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Product product)
+        public async Task<IActionResult> Edit(int id, Product product, IFormFile? imageFile)
         {
             if (id != product.Id) return NotFound();
+
+            if (imageFile != null)
+            {
+                try
+                {
+                    var url = await _imageService.UploadImageAsync(imageFile);
+                    if (!string.IsNullOrEmpty(url)) product.Image = url;
+                }
+                catch (System.Exception ex)
+                {
+                    ModelState.AddModelError("", "خطأ في رفع الصورة: " + ex.Message);
+                    ViewBag.Categories = await _context.Categories.ToListAsync();
+                    return View(product);
+                }
+            }
 
             _context.Update(product);
             await _context.SaveChangesAsync();

@@ -5,7 +5,7 @@
 
 <div class="card shadow-sm max-w-2xl mx-auto">
     <div class="card-body">
-        <form method="post" action="/Admin/Banners/Edit/@Model.Id">
+        <form method="post" action="/Admin/Banners/Edit/@Model.Id" enctype="multipart/form-data">
             <input type="hidden" name="Id" value="@Model.Id" />
             <div class="mb-3">
                 <label class="form-label">العنوان</label>
@@ -16,7 +16,11 @@
                 <input type="text" name="Subtitle" value="@Model.Subtitle" class="form-control" />
             </div>
             <div class="mb-3">
-                <label class="form-label">رابط الصورة</label>
+                <label class="form-label">الصورة (رفع ملف جديد)</label>
+                <input type="file" name="imageFile" class="form-control" accept="image/*" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">رابط الصورة الحالية</label>
                 <input type="url" name="Image" value="@Model.Image" class="form-control" required />
             </div>
             <div class="text-end">

@@ -133,3 +133,4 @@ C:\Users\solo\Desktop\eshak\backend\bin\Debug\net10.0\System.IdentityModel.Token
 C:\Users\solo\Desktop\eshak\backend\bin\Debug\net10.0\Microsoft.EntityFrameworkCore.InMemory.dll
 C:\Users\solo\Desktop\eshak\backend\obj\Debug\net10.0\BackendAPI.RazorAssemblyInfo.cache
 C:\Users\solo\Desktop\eshak\backend\obj\Debug\net10.0\BackendAPI.RazorAssemblyInfo.cs
+C:\Users\solo\Desktop\eshak\backend\bin\Debug\net10.0\CloudinaryDotNet.dll

@@ -68,5 +68,38 @@ namespace BackendAPI.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Origins));
         }
+
+        public async Task<IActionResult> Cloudinary()
+        {
+            var settings = await _context.SystemSettings
+                .Where(s => s.Key.StartsWith("Cloudinary_"))
+                .ToListAsync();
+
+            var model = new Dictionary<string, string>();
+            foreach(var s in settings)
+            {
+                model[s.Key] = s.Value;
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCloudinary(string cloudName, string apiKey, string apiSecret)
+        {
+            var cn = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Cloudinary_CloudName");
+            if (cn != null) cn.Value = cloudName ?? "";
+
+            var ak = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Cloudinary_ApiKey");
+            if (ak != null) ak.Value = apiKey ?? "";
+
+            var @as = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Cloudinary_ApiSecret");
+            if (@as != null) @as.Value = apiSecret ?? "";
+
+            await _context.SaveChangesAsync();
+            
+            TempData["Success"] = "تم تحديث إعدادات Cloudinary بنجاح.";
+            return RedirectToAction(nameof(Cloudinary));
+        }
     }
 }
