@@ -102,7 +102,7 @@ namespace BackendAPI.Areas.Admin.Controllers
             return RedirectToAction(nameof(Cloudinary));
         }
 
-        public async Task<IActionResult> Database()
+        public async Task<IActionResult> Database([FromServices] BackendAPI.Models.DatabaseState dbState)
         {
             var filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
             var jsonString = await System.IO.File.ReadAllTextAsync(filePath);
@@ -110,6 +110,7 @@ namespace BackendAPI.Areas.Admin.Controllers
             
             var connectionString = jsonNode?["ConnectionStrings"]?["DefaultConnection"]?.ToString() ?? "";
             
+            ViewBag.DbState = dbState;
             return View((object)connectionString);
         }
 

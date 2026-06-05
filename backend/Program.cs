@@ -9,13 +9,35 @@ using BackendAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DbContext
+// DbContext & Failsafe
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+bool usePostgres = false;
+bool connectionFailed = false;
+
+if (!string.IsNullOrEmpty(connectionString) && !connectionString.Equals("InMemory", StringComparison.OrdinalIgnoreCase))
+{
+    try
+    {
+        // Try to connect before setting up EF Core
+        using var conn = new Npgsql.NpgsqlConnection(connectionString);
+        conn.Open(); 
+        usePostgres = true; 
+    }
+    catch (System.Exception)
+    {
+        // Connection failed! Fallback to InMemory
+        usePostgres = false;
+        connectionFailed = true;
+    }
+}
+
+builder.Services.AddSingleton(new BackendAPI.Models.DatabaseState { IsPostgres = usePostgres, ConnectionFailed = connectionFailed });
+
 builder.Services.AddDbContext<AppDbContext>(options => {
-    if (string.IsNullOrEmpty(connectionString) || connectionString.Equals("InMemory", StringComparison.OrdinalIgnoreCase)) {
-        options.UseInMemoryDatabase("EshakTestDb");
-    } else {
+    if (usePostgres) {
         options.UseNpgsql(connectionString);
+    } else {
+        options.UseInMemoryDatabase("EshakTestDb");
     }
 });
 

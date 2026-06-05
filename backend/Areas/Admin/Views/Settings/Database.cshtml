@@ -13,12 +13,27 @@
 
 <div class="card shadow-sm max-w-2xl mx-auto border-danger">
     <div class="card-header bg-danger text-white">
-        <h5 class="mb-0"><i class="bi bi-database-fill-gear"></i> إعدادات اتصال قاعدة البيانات (خطير)</h5>
+        <h5 class="mb-0"><i class="bi bi-database-fill-gear"></i> إعدادات اتصال قاعدة البيانات (محمي)</h5>
     </div>
     <div class="card-body">
+        
+        @if (ViewBag.DbState != null && ViewBag.DbState.ConnectionFailed)
+        {
+            <div class="alert alert-danger shadow-sm">
+                <h5 class="alert-heading"><i class="bi bi-x-circle-fill"></i> فشل الاتصال بقاعدة البيانات!</h5>
+                <p>لقد قمت بإدخال نص اتصال خاطئ أو أن السيرفر غير متاح. <strong>لم يتعطل النظام</strong>، بل تم تشغيل نظام الحماية والعودة للعمل بوضع <code>الذاكرة المؤقتة (InMemory)</code> تلقائياً حتى تقوم بتصحيح الرابط!</p>
+            </div>
+        }
+        else if (ViewBag.DbState != null && ViewBag.DbState.IsPostgres)
+        {
+            <div class="alert alert-success shadow-sm">
+                <i class="bi bi-check-circle-fill"></i> النظام الآن يعمل على قاعدة بيانات <strong>PostgreSQL</strong> بنجاح!
+            </div>
+        }
+
         <div class="alert alert-warning">
-            <strong>تحذير هام:</strong> تغيير هذا الرابط سيؤدي إلى فصل النظام عن البيانات الحالية.<br />
-            - إذا أدخلت رابطاً خاطئاً، سيتعطل النظام ولن تتمكن من دخول هذه اللوحة مجدداً!<br />
+            <strong>ملاحظات:</strong><br />
+            - إذا أدخلت رابطاً خاطئاً، سيعود النظام للعمل من الذاكرة المؤقتة ولن يتعطل.<br />
             - إذا تركت الحقل فارغاً أو كتبت <code>InMemory</code>، سيعمل النظام على الذاكرة المؤقتة (للاختبار فقط، وتُمسح البيانات عند إطفاء السيرفر).<br />
             - يدعم النظام حالياً قواعد بيانات <strong>PostgreSQL</strong>.
         </div>
