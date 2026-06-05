@@ -143,5 +143,41 @@ namespace BackendAPI.Areas.Admin.Controllers
             // We could programmatically trigger a restart, but for now we rely on the host reacting or manual restart.
             return RedirectToAction(nameof(Database));
         }
+
+        public async Task<IActionResult> Brevo()
+        {
+            var settings = await _context.SystemSettings
+                .Where(s => s.Key.StartsWith("Brevo_"))
+                .ToListAsync();
+
+            var model = new Dictionary<string, string>();
+            foreach(var s in settings)
+            {
+                model[s.Key] = s.Value;
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBrevo(string apiKey, string senderEmail, string senderName)
+        {
+            var ak = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Brevo_ApiKey");
+            if (ak != null) ak.Value = apiKey ?? "";
+            else _context.SystemSettings.Add(new SystemSetting { Key = "Brevo_ApiKey", Value = apiKey ?? "" });
+
+            var se = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Brevo_SenderEmail");
+            if (se != null) se.Value = senderEmail ?? "";
+            else _context.SystemSettings.Add(new SystemSetting { Key = "Brevo_SenderEmail", Value = senderEmail ?? "" });
+
+            var sn = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == "Brevo_SenderName");
+            if (sn != null) sn.Value = senderName ?? "";
+            else _context.SystemSettings.Add(new SystemSetting { Key = "Brevo_SenderName", Value = senderName ?? "" });
+
+            await _context.SaveChangesAsync();
+            
+            TempData["Success"] = "تم تحديث إعدادات إرسال الإيميلات (Brevo) بنجاح.";
+            return RedirectToAction(nameof(Brevo));
+        }
     }
 }

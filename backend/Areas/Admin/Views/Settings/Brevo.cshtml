@@ -1,0 +1,45 @@
+@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "إعدادات إرسال الإيميلات (Brevo)";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-envelope-at"></i> إعدادات إرسال الإيميلات (Brevo)</h5>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-info">
+            لإرسال إيميلات حقيقية للمستخدمين (لتأكيد الحساب، إعادة تعيين كلمة المرور، الخ...)، نستخدم خدمة <strong>Brevo</strong>. 
+            يمكنك إنشاء حساب مجاني في <a href="https://www.brevo.com" target="_blank" class="text-primary fw-bold">Brevo.com</a> والحصول على الـ API Key من هناك.
+        </div>
+        <form method="post" action="/Admin/Settings/UpdateBrevo">
+            <div class="mb-3">
+                <label class="form-label fw-bold">API Key (v3)</label>
+                <input type="password" name="apiKey" class="form-control" value="@(Model.ContainsKey("Brevo_ApiKey") ? Model["Brevo_ApiKey"] : "")" required />
+                <div class="form-text text-danger">مفتاح الـ API الخاص بـ Brevo (احتفظ به سرياً).</div>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label fw-bold">إيميل المُرسِل (Sender Email)</label>
+                <input type="email" name="senderEmail" class="form-control" value="@(Model.ContainsKey("Brevo_SenderEmail") ? Model["Brevo_SenderEmail"] : "")" placeholder="noreply@eshak.com" required />
+                <div class="form-text text-muted">الإيميل الذي سيظهر للمستخدم أنه أرسل الرسالة. يجب أن يكون موثقاً في Brevo.</div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">اسم المُرسِل (Sender Name)</label>
+                <input type="text" name="senderName" class="form-control" value="@(Model.ContainsKey("Brevo_SenderName") ? Model["Brevo_SenderName"] : "")" placeholder="متجر عشك" required />
+                <div class="form-text text-muted">الاسم الذي سيظهر بجانب الإيميل للمستخدم.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100"><i class="bi bi-save"></i> حفظ الإعدادات</button>
+        </form>
+    </div>
+</div>

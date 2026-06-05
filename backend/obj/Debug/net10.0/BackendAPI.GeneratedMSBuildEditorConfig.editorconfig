@@ -102,6 +102,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcUHJvZHVjdHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/solo/Desktop/eshak/backend/Areas/Admin/Views/Settings/Brevo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2V0dGluZ3NcQnJldm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/solo/Desktop/eshak/backend/Areas/Admin/Views/Settings/Cloudinary.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcQWRtaW5cVmlld3NcU2V0dGluZ3NcQ2xvdWRpbmFyeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
