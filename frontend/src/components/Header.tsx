@@ -57,7 +57,7 @@ export function Header({ onMenuClick }: HeaderProps) {
             <div className="flex items-center gap-4">
               <div className="flex flex-col items-center">
                 <User className="w-6 h-6 text-gray-700" />
-                <span className="text-xs font-medium mt-1 truncate max-w-[80px]">{user?.fullName.split(' ')[0]}</span>
+                <span className="text-xs font-medium mt-1 truncate max-w-[80px]">{user?.fullName?.split(' ')[0] || 'المستخدم'}</span>
               </div>
               <button onClick={logout} className="flex flex-col items-center cursor-pointer hover:text-red-600 transition">
                 <LogOut className="w-6 h-6 text-gray-700" />

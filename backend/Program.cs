@@ -76,6 +76,26 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Seed data for InMemoryDatabase
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    context.Database.EnsureCreated();
+    if (!context.Products.Any())
+    {
+        context.Categories.Add(new BackendAPI.Models.Category { Name = "أجهزة منزلية", Icon = "Home", Image = "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=300&q=80" });
+        context.SaveChanges();
+        
+        var catId = context.Categories.First().Id;
+        context.Products.AddRange(
+            new BackendAPI.Models.Product { Name = "عجانة كهربائية", Brand = "Kenwood", Price = 4999, Rating = 4.8, Reviews = 120, Image = "/images/products/stand_mixer.png", CategoryId = catId },
+            new BackendAPI.Models.Product { Name = "مكنسة كهربائية", Brand = "Samsung", Price = 3500, Rating = 4.5, Reviews = 80, Image = "/images/products/vacuum_cleaner.png", CategoryId = catId }
+        );
+        context.Banners.Add(new BackendAPI.Models.Banner { Title = "عروض الصيف", Subtitle = "خصومات تصل إلى 50%", Image = "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1600&q=80" });
+        context.SaveChanges();
+    }
+}
+
 app.Run();
 
 public partial class Program { }
