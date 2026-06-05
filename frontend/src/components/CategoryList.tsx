@@ -1,7 +1,12 @@
-import { categories } from '../data';
 import * as Icons from 'lucide-react';
 
-export function CategoryList() {
+interface CategoryListProps {
+  categories: any[];
+}
+
+export function CategoryList({ categories }: CategoryListProps) {
+  if (!categories || categories.length === 0) return null;
+
   return (
     <section className="py-8 bg-white px-4 md:px-8">
       <div className="max-w-7xl mx-auto">

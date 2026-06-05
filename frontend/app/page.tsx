@@ -2,11 +2,17 @@ import { HeroSlider } from '../src/components/HeroSlider';
 import { CategoryList } from '../src/components/CategoryList';
 import { ProductSection } from '../src/components/ProductSection';
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [banners, categories, products] = await Promise.all([
+    fetch('http://localhost:5256/api/banners', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch('http://localhost:5256/api/categories', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch('http://localhost:5256/api/products', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+  ]);
+
   return (
     <>
-      <HeroSlider />
-      <CategoryList />
+      <HeroSlider banners={banners} />
+      <CategoryList categories={categories} />
       
       {/* Promotional Banner between sections */}
       <section className="py-6 px-4 md:px-8 max-w-7xl mx-auto">
@@ -25,8 +31,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ProductSection title="وصل حديثاً" />
-      <ProductSection title="الأكثر مبيعاً" />
+      <ProductSection title="وصل حديثاً" products={products.slice(0, 4)} />
+      <ProductSection title="الأكثر مبيعاً" products={products.slice(4, 8)} />
     </>
   );
 }

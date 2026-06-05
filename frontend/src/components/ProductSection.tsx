@@ -1,12 +1,13 @@
-import { products } from '../data';
 import { ProductCard } from './ProductCard';
 import { ChevronLeft } from 'lucide-react';
 
 interface ProductSectionProps {
   title: string;
+  products: any[];
 }
 
-export function ProductSection({ title }: ProductSectionProps) {
+export function ProductSection({ title, products }: ProductSectionProps) {
+  if (!products || products.length === 0) return null;
   return (
     <section className="py-8 bg-gray-50 px-4 md:px-8">
       <div className="max-w-7xl mx-auto">

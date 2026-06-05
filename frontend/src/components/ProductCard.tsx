@@ -1,5 +1,11 @@
-import { Star, ShoppingCart, Heart } from 'lucide-react';
+'use client';
+
+import { useState } from 'react';
+import { Star, ShoppingCart, Heart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { fetchApi } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
+import { useRouter } from 'next/navigation';
 interface ProductProps {
   product: {
     id: number;
@@ -16,6 +22,50 @@ interface ProductProps {
 }
 
 export function ProductCard({ product }: ProductProps) {
+  const [isAddingCart, setIsAddingCart] = useState(false);
+  const [isAddingFav, setIsAddingFav] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    setIsAddingCart(true);
+    try {
+      await fetchApi('/cart', {
+        method: 'POST',
+        body: JSON.stringify({ productId: product.id, quantity: 1 })
+      });
+      alert('تمت الإضافة إلى عربة التسوق بنجاح!');
+    } catch (error) {
+      alert('حدث خطأ أثناء الإضافة للعربة');
+    } finally {
+      setIsAddingCart(false);
+    }
+  };
+
+  const handleAddToFavorites = async () => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+    
+    setIsAddingFav(true);
+    try {
+      await fetchApi(`/favorites/${product.id}`, {
+        method: 'POST'
+      });
+      alert('تمت الإضافة إلى المفضلة بنجاح!');
+    } catch (error) {
+      alert('حدث خطأ أثناء الإضافة للمفضلة');
+    } finally {
+      setIsAddingFav(false);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden relative group flex flex-col h-full">
       
@@ -34,8 +84,12 @@ export function ProductCard({ product }: ProductProps) {
       </div>
 
       {/* Favorite Button */}
-      <button className="absolute top-2 left-2 z-10 p-1.5 bg-white rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition shadow-sm">
-        <Heart className="w-5 h-5" />
+      <button 
+        onClick={handleAddToFavorites}
+        disabled={isAddingFav}
+        className="absolute top-2 left-2 z-10 p-1.5 bg-white rounded-full text-gray-400 hover:text-rose-500 hover:bg-rose-50 transition shadow-sm"
+      >
+        {isAddingFav ? <Loader2 className="w-5 h-5 animate-spin" /> : <Heart className="w-5 h-5" />}
       </button>
 
       {/* Product Image */}
@@ -76,8 +130,12 @@ export function ProductCard({ product }: ProductProps) {
             )}
           </div>
           
-          <button className="w-full mt-4 bg-red-50 hover:bg-red-600 text-red-600 hover:text-white border border-red-200 font-medium py-2 rounded-md flex items-center justify-center gap-2 transition-colors">
-            <ShoppingCart className="w-4 h-4" />
+          <button 
+            onClick={handleAddToCart}
+            disabled={isAddingCart}
+            className="w-full mt-4 bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-200 font-medium py-2 rounded-md flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+          >
+            {isAddingCart ? <Loader2 className="w-4 h-4 animate-spin" /> : <ShoppingCart className="w-4 h-4" />}
             أضف للعربة
           </button>
         </div>

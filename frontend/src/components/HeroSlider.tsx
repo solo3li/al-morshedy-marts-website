@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import { banners } from '../data';
 
-export function HeroSlider() {
+interface HeroSliderProps {
+  banners: any[];
+}
+
+export function HeroSlider({ banners }: HeroSliderProps) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
@@ -14,8 +17,10 @@ export function HeroSlider() {
     return () => clearInterval(timer);
   }, []);
 
-  const nextSlide = () => setCurrent(current === banners.length - 1 ? 0 : current + 1);
-  const prevSlide = () => setCurrent(current === 0 ? banners.length - 1 : current - 1);
+  const nextSlide = () => setCurrent(current === (banners?.length || 1) - 1 ? 0 : current + 1);
+  const prevSlide = () => setCurrent(current === 0 ? (banners?.length || 1) - 1 : current - 1);
+
+  if (!banners || banners.length === 0) return null;
 
   return (
     <div className="relative w-full h-[300px] md:h-[500px] overflow-hidden bg-gray-100">

@@ -1,5 +1,8 @@
-import { Search, ShoppingCart, User, Heart, Menu } from 'lucide-react';
+'use client';
+
+import { Search, ShoppingCart, User, Heart, Menu, LogOut } from 'lucide-react';
 import Link from 'next/link';
+import { useAuth } from '../context/AuthContext';
 
 
 interface HeaderProps {
@@ -7,6 +10,8 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
+  const { user, isAuthenticated, logout } = useAuth();
+
   return (
     <header className="w-full bg-white shadow-sm">
 
@@ -18,8 +23,12 @@ export function Header({ onMenuClick }: HeaderProps) {
             <img src="/eshk-logo.png" alt="عشك" className="h-10 object-contain" />
           </Link>
           <div className="md:hidden flex space-x-3 rtl:space-x-reverse">
-            <ShoppingCart className="w-6 h-6 text-gray-700" />
-            <User className="w-6 h-6 text-gray-700" />
+            <Link href="/cart">
+              <ShoppingCart className="w-6 h-6 text-gray-700" />
+            </Link>
+            <Link href={isAuthenticated ? "/account" : "/login"}>
+              <User className="w-6 h-6 text-gray-700" />
+            </Link>
           </div>
         </div>
 
@@ -44,10 +53,23 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         {/* Actions */}
         <div className="hidden md:flex items-center gap-6 shrink-0">
-          <Link href="/account" className="flex flex-col items-center cursor-pointer hover:text-red-600 transition">
-            <User className="w-6 h-6 text-gray-700" />
-            <span className="text-xs font-medium mt-1">حسابي</span>
-          </Link>
+          {isAuthenticated ? (
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col items-center">
+                <User className="w-6 h-6 text-gray-700" />
+                <span className="text-xs font-medium mt-1 truncate max-w-[80px]">{user?.fullName.split(' ')[0]}</span>
+              </div>
+              <button onClick={logout} className="flex flex-col items-center cursor-pointer hover:text-red-600 transition">
+                <LogOut className="w-6 h-6 text-gray-700" />
+                <span className="text-xs font-medium mt-1">خروج</span>
+              </button>
+            </div>
+          ) : (
+            <Link href="/login" className="flex flex-col items-center cursor-pointer hover:text-red-600 transition">
+              <User className="w-6 h-6 text-gray-700" />
+              <span className="text-xs font-medium mt-1">دخول / تسجيل</span>
+            </Link>
+          )}
           <Link href="/favorites" className="flex flex-col items-center cursor-pointer hover:text-red-600 transition relative">
             <Heart className="w-6 h-6 text-gray-700" />
             <span className="text-xs font-medium mt-1">المفضلة</span>
