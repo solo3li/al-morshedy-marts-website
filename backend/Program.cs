@@ -10,8 +10,14 @@ using BackendAPI.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("EshakTestDb"));
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options => {
+    if (string.IsNullOrEmpty(connectionString) || connectionString.Equals("InMemory", StringComparison.OrdinalIgnoreCase)) {
+        options.UseInMemoryDatabase("EshakTestDb");
+    } else {
+        options.UseNpgsql(connectionString);
+    }
+});
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

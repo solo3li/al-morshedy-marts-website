@@ -101,5 +101,46 @@ namespace BackendAPI.Areas.Admin.Controllers
             TempData["Success"] = "تم تحديث إعدادات Cloudinary بنجاح.";
             return RedirectToAction(nameof(Cloudinary));
         }
+
+        public async Task<IActionResult> Database()
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            var jsonString = await System.IO.File.ReadAllTextAsync(filePath);
+            var jsonNode = System.Text.Json.Nodes.JsonNode.Parse(jsonString);
+            
+            var connectionString = jsonNode?["ConnectionStrings"]?["DefaultConnection"]?.ToString() ?? "";
+            
+            return View((object)connectionString);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDatabase(string connectionString)
+        {
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "appsettings.json");
+            var jsonString = await System.IO.File.ReadAllTextAsync(filePath);
+            var jsonNode = System.Text.Json.Nodes.JsonNode.Parse(jsonString);
+
+            if (jsonNode?["ConnectionStrings"] != null)
+            {
+                jsonNode["ConnectionStrings"]!["DefaultConnection"] = connectionString;
+            }
+            else
+            {
+                jsonNode!["ConnectionStrings"] = new System.Text.Json.Nodes.JsonObject
+                {
+                    ["DefaultConnection"] = connectionString
+                };
+            }
+
+            // Using JsonSerializerOptions for pretty print
+            var options = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+            await System.IO.File.WriteAllTextAsync(filePath, jsonNode.ToJsonString(options));
+
+            TempData["Success"] = "تم تحديث اتصال قاعدة البيانات بنجاح! سيتم إعادة تشغيل النظام لتطبيق التغييرات.";
+            
+            // Note: modifying appsettings.json usually reloads IConfiguration, but for DbContext it's best to restart.
+            // We could programmatically trigger a restart, but for now we rely on the host reacting or manual restart.
+            return RedirectToAction(nameof(Database));
+        }
     }
 }

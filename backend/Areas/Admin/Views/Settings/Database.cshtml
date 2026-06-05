@@ -1,0 +1,40 @@
+@model string
+@{
+    ViewData["Title"] = "إعدادات قاعدة البيانات";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto border-danger">
+    <div class="card-header bg-danger text-white">
+        <h5 class="mb-0"><i class="bi bi-database-fill-gear"></i> إعدادات اتصال قاعدة البيانات (خطير)</h5>
+    </div>
+    <div class="card-body">
+        <div class="alert alert-warning">
+            <strong>تحذير هام:</strong> تغيير هذا الرابط سيؤدي إلى فصل النظام عن البيانات الحالية.<br />
+            - إذا أدخلت رابطاً خاطئاً، سيتعطل النظام ولن تتمكن من دخول هذه اللوحة مجدداً!<br />
+            - إذا تركت الحقل فارغاً أو كتبت <code>InMemory</code>، سيعمل النظام على الذاكرة المؤقتة (للاختبار فقط، وتُمسح البيانات عند إطفاء السيرفر).<br />
+            - يدعم النظام حالياً قواعد بيانات <strong>PostgreSQL</strong>.
+        </div>
+        <form method="post" action="/Admin/Settings/UpdateDatabase">
+            <div class="mb-4">
+                <label class="form-label fw-bold">نص الاتصال (Connection String)</label>
+                <input type="text" name="connectionString" class="form-control" value="@Model" placeholder="Host=localhost;Database=mydb;Username=postgres;Password=mypass" />
+                <div class="form-text text-muted">
+                    مثال لـ PostgreSQL:<br />
+                    <code>Host=localhost;Database=eshakdb;Username=postgres;Password=mysecretpassword</code>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-danger w-100" onclick="return confirm('هل أنت متأكد من تغيير رابط قاعدة البيانات؟ إذا كان الرابط خاطئاً سيتعطل الموقع بالكامل!')">
+                <i class="bi bi-exclamation-triangle"></i> تغيير قاعدة البيانات
+            </button>
+        </form>
+    </div>
+</div>
