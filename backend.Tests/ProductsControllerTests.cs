@@ -24,13 +24,14 @@ namespace backend.Tests
 
             using (var context = new AppDbContext(options))
             {
-                var controller = new ProductsController(context);
+                var productService = new BackendAPI.Services.ProductService(context);
+                var controller = new ProductsController(productService);
 
                 // Act
                 var result = await controller.GetProducts(null);
 
                 // Assert
-                var actionResult = Assert.IsType<ActionResult<IEnumerable<Product>>>(result);
+                var actionResult = Assert.IsType<OkObjectResult>(result.Result);
                 var products = Assert.IsAssignableFrom<IEnumerable<Product>>(actionResult.Value);
                 Assert.True(products.Any());
             }

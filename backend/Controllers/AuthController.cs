@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using BackendAPI.Models;
 using BackendAPI.DTOs;
+using BackendAPI.Services;
 
 namespace BackendAPI.Controllers
 {
@@ -13,13 +8,11 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IConfiguration _configuration;
+        private readonly IAuthService _authService;
 
-        public AuthController(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthController(IAuthService authService)
         {
-            _userManager = userManager;
-            _configuration = configuration;
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -27,16 +20,14 @@ namespace BackendAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FullName = model.FullName };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var (succeeded, data, errors) = await _authService.RegisterAsync(model);
 
-            if (result.Succeeded)
+            if (succeeded)
             {
-                var token = GenerateJwtToken(user);
-                return Ok(new AuthResponseDto { Token = token, Email = user.Email, FullName = user.FullName });
+                return Ok(data);
             }
 
-            return BadRequest(result.Errors);
+            return BadRequest(errors);
         }
 
         [HttpPost("login")]
@@ -44,41 +35,14 @@ namespace BackendAPI.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            var (succeeded, data, errorMessage) = await _authService.LoginAsync(model);
+
+            if (succeeded)
             {
-                var token = GenerateJwtToken(user);
-                return Ok(new AuthResponseDto { Token = token, Email = user.Email!, FullName = user.FullName });
+                return Ok(data);
             }
 
-            return Unauthorized("Invalid credentials.");
-        }
-
-        private string GenerateJwtToken(ApplicationUser user)
-        {
-            var jwtSettings = _configuration.GetSection("Jwt");
-            var key = Encoding.ASCII.GetBytes(jwtSettings["Key"]!);
-
-            var claims = new[]
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Email, user.Email!),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = jwtSettings["Issuer"],
-                Audience = jwtSettings["Audience"],
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
+            return Unauthorized(errorMessage);
         }
     }
 }

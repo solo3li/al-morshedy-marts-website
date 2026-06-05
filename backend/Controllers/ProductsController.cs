@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BackendAPI.Data;
 using BackendAPI.Models;
+using BackendAPI.Services;
 
 namespace BackendAPI.Controllers
 {
@@ -9,30 +8,26 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IProductService _productService;
 
-        public ProductsController(AppDbContext context)
+        public ProductsController(IProductService productService)
         {
-            _context = context;
+            _productService = productService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int? categoryId)
         {
-            var query = _context.Products.AsQueryable();
-            if (categoryId.HasValue)
-            {
-                query = query.Where(p => p.CategoryId == categoryId.Value);
-            }
-            return await query.ToListAsync();
+            var products = await _productService.GetProductsAsync(categoryId);
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            var product = await _context.Products.Include(p => p.Category).FirstOrDefaultAsync(p => p.Id == id);
+            var product = await _productService.GetProductByIdAsync(id);
             if (product == null) return NotFound();
-            return product;
+            return Ok(product);
         }
     }
 }

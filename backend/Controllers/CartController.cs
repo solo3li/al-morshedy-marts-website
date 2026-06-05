@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using BackendAPI.Data;
 using BackendAPI.Models;
+using BackendAPI.Services;
 
 namespace BackendAPI.Controllers
 {
@@ -12,11 +11,11 @@ namespace BackendAPI.Controllers
     [Authorize]
     public class CartController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly ICartService _cartService;
 
-        public CartController(AppDbContext context)
+        public CartController(ICartService cartService)
         {
-            _context = context;
+            _cartService = cartService;
         }
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
@@ -25,25 +24,15 @@ namespace BackendAPI.Controllers
         public async Task<ActionResult<IEnumerable<CartItem>>> GetCart()
         {
             var userId = GetUserId();
-            return await _context.CartItems.Include(c => c.Product).Where(c => c.UserId == userId).ToListAsync();
+            var cart = await _cartService.GetCartAsync(userId);
+            return Ok(cart);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CartItem>> AddToCart([FromBody] CartItem cartItem)
+        public async Task<IActionResult> AddToCart([FromBody] CartItem cartItem)
         {
-            cartItem.UserId = GetUserId();
-            var existing = await _context.CartItems.FirstOrDefaultAsync(c => c.UserId == cartItem.UserId && c.ProductId == cartItem.ProductId);
-            
-            if (existing != null)
-            {
-                existing.Quantity += cartItem.Quantity;
-            }
-            else
-            {
-                _context.CartItems.Add(cartItem);
-            }
-
-            await _context.SaveChangesAsync();
+            var userId = GetUserId();
+            await _cartService.AddToCartAsync(userId, cartItem);
             return Ok();
         }
 
@@ -51,11 +40,9 @@ namespace BackendAPI.Controllers
         public async Task<IActionResult> UpdateQuantity(int id, [FromBody] int quantity)
         {
             var userId = GetUserId();
-            var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
-            if (item == null) return NotFound();
+            var success = await _cartService.UpdateQuantityAsync(userId, id, quantity);
+            if (!success) return NotFound();
 
-            item.Quantity = quantity;
-            await _context.SaveChangesAsync();
             return NoContent();
         }
 
@@ -63,11 +50,9 @@ namespace BackendAPI.Controllers
         public async Task<IActionResult> RemoveFromCart(int id)
         {
             var userId = GetUserId();
-            var item = await _context.CartItems.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
-            if (item == null) return NotFound();
+            var success = await _cartService.RemoveFromCartAsync(userId, id);
+            if (!success) return NotFound();
 
-            _context.CartItems.Remove(item);
-            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

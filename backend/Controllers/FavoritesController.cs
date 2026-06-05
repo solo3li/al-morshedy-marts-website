@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using BackendAPI.Data;
 using BackendAPI.Models;
+using BackendAPI.Services;
 
 namespace BackendAPI.Controllers
 {
@@ -12,11 +11,11 @@ namespace BackendAPI.Controllers
     [Authorize]
     public class FavoritesController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IFavoriteService _favoriteService;
 
-        public FavoritesController(AppDbContext context)
+        public FavoritesController(IFavoriteService favoriteService)
         {
-            _context = context;
+            _favoriteService = favoriteService;
         }
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value!;
@@ -25,21 +24,15 @@ namespace BackendAPI.Controllers
         public async Task<ActionResult<IEnumerable<Favorite>>> GetFavorites()
         {
             var userId = GetUserId();
-            return await _context.Favorites.Include(f => f.Product).Where(f => f.UserId == userId).ToListAsync();
+            var favorites = await _favoriteService.GetFavoritesAsync(userId);
+            return Ok(favorites);
         }
 
         [HttpPost("{productId}")]
         public async Task<IActionResult> AddFavorite(int productId)
         {
             var userId = GetUserId();
-            var existing = await _context.Favorites.FirstOrDefaultAsync(f => f.UserId == userId && f.ProductId == productId);
-            
-            if (existing == null)
-            {
-                _context.Favorites.Add(new Favorite { UserId = userId, ProductId = productId });
-                await _context.SaveChangesAsync();
-            }
-
+            await _favoriteService.AddFavoriteAsync(userId, productId);
             return Ok();
         }
 
@@ -47,11 +40,9 @@ namespace BackendAPI.Controllers
         public async Task<IActionResult> RemoveFavorite(int productId)
         {
             var userId = GetUserId();
-            var favorite = await _context.Favorites.FirstOrDefaultAsync(f => f.UserId == userId && f.ProductId == productId);
-            if (favorite == null) return NotFound();
+            var success = await _favoriteService.RemoveFavoriteAsync(userId, productId);
+            if (!success) return NotFound();
 
-            _context.Favorites.Remove(favorite);
-            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BackendAPI.Data;
 using BackendAPI.Models;
+using BackendAPI.Services;
 
 namespace BackendAPI.Controllers
 {
@@ -9,17 +8,18 @@ namespace BackendAPI.Controllers
     [ApiController]
     public class BannersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IBannerService _bannerService;
 
-        public BannersController(AppDbContext context)
+        public BannersController(IBannerService bannerService)
         {
-            _context = context;
+            _bannerService = bannerService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Banner>>> GetBanners()
         {
-            return await _context.Banners.ToListAsync();
+            var banners = await _bannerService.GetBannersAsync();
+            return Ok(banners);
         }
     }
 }
