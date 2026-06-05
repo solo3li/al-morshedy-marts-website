@@ -4,12 +4,12 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
 import { fetchApi } from '../../src/utils/api';
-import { useAuth } from '../../src/context/AuthContext';
+import { useAuthStore } from '../../src/store/authStore';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     if (isAuthenticated) {

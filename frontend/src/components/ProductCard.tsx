@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Star, ShoppingCart, Heart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { fetchApi } from '../utils/api';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/authStore';
 import { useRouter } from 'next/navigation';
 interface ProductProps {
   product: {
@@ -24,7 +24,7 @@ interface ProductProps {
 export function ProductCard({ product }: ProductProps) {
   const [isAddingCart, setIsAddingCart] = useState(false);
   const [isAddingFav, setIsAddingFav] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
   const router = useRouter();
 
   const handleAddToCart = async () => {

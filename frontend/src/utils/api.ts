@@ -1,8 +1,17 @@
 export const API_BASE_URL = 'http://localhost:5256/api';
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
-  
+  let token = null;
+  if (typeof window !== 'undefined') {
+    const authStorage = localStorage.getItem('auth-storage');
+    if (authStorage) {
+      try {
+        const parsed = JSON.parse(authStorage);
+        token = parsed.state?.token;
+      } catch(e) {}
+    }
+  }
+
   const headers = new Headers(options.headers);
   headers.set('Content-Type', 'application/json');
   

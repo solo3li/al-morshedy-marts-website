@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseInMemoryDatabase("EshakTestDb"));
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()

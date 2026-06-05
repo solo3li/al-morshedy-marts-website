@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { ProductSection } from '../../src/components/ProductSection';
 import { Heart, Loader2 } from 'lucide-react';
 import { fetchApi } from '../../src/utils/api';
-import { useAuth } from '../../src/context/AuthContext';
+import { useAuthStore } from '../../src/store/authStore';
 import Link from 'next/link';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
     if (isAuthenticated) {

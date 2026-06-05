@@ -2,7 +2,7 @@
 
 import { Search, ShoppingCart, User, Heart, Menu, LogOut } from 'lucide-react';
 import Link from 'next/link';
-import { useAuth } from '../context/AuthContext';
+import { useAuthStore } from '../store/authStore';
 
 
 interface HeaderProps {
@@ -10,7 +10,7 @@ interface HeaderProps {
 }
 
 export function Header({ onMenuClick }: HeaderProps) {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, logout } = useAuthStore();
 
   return (
     <header className="w-full bg-white shadow-sm">
