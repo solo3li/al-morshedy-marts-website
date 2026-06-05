@@ -1,0 +1,71 @@
+@model IEnumerable<BackendAPI.Models.AllowedOrigin>
+@{
+    ViewData["Title"] = "إعدادات الأمان (CORS)";
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">إضافة رابط مسموح (Origin)</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" action="/Admin/Settings/AddOrigin">
+                    <div class="mb-3">
+                        <label class="form-label">الرابط (مثال: http://localhost:3000)</label>
+                        <input type="url" name="url" class="form-control" placeholder="https://example.com" required />
+                        <div class="form-text">تأكد من كتابة الرابط بدون (/) في النهاية.</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100"><i class="bi bi-plus-circle"></i> إضافة</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">الروابط المسموح لها بالاتصال بالـ API</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>#</th>
+                                <th>رابط الـ Origin</th>
+                                <th>إجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted py-4">لا توجد روابط مسموحة حالياً. الواجهة الأمامية لن تعمل!</td>
+                                </tr>
+                            }
+                            @foreach(var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.Id</td>
+                                    <td><code class="text-dark bg-light px-2 py-1 rounded">@item.Url</code></td>
+                                    <td>
+                                        <a href="/Admin/Settings/DeleteOrigin/@item.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('هل أنت متأكد من الحذف؟ لن يستطيع هذا الموقع الاتصال بالباك إيند بعد الآن.')"><i class="bi bi-trash"></i> حذف</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

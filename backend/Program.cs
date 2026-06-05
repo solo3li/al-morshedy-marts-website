@@ -60,9 +60,10 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.SetIsOriginAllowed(origin => BackendAPI.Models.CorsConfig.AllowedOrigins.Contains(origin))
               .AllowAnyHeader()
-              .AllowAnyMethod();
+              .AllowAnyMethod()
+              .AllowCredentials();
     });
 });
 
@@ -112,6 +113,13 @@ using (var scope = app.Services.CreateScope())
         );
         context.Banners.Add(new BackendAPI.Models.Banner { Title = "عروض الصيف", Subtitle = "خصومات تصل إلى 50%", Image = "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1600&q=80" });
         context.SaveChanges();
+    }
+
+    // Load Origins into Cache
+    var origins = context.AllowedOrigins.Select(o => o.Url).ToList();
+    foreach (var origin in origins)
+    {
+        BackendAPI.Models.CorsConfig.AllowedOrigins.Add(origin);
     }
 }
 

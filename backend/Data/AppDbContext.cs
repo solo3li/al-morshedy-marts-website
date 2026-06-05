@@ -15,6 +15,7 @@ namespace BackendAPI.Data
         public DbSet<Banner> Banners { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<AllowedOrigin> AllowedOrigins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +47,11 @@ namespace BackendAPI.Data
             builder.Entity<Banner>().HasData(
                 new Banner { Id = 1, Image = "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?auto=format&fit=crop&w=1600&q=80", Title = "عروض البلاك فرايداي", Subtitle = "خصومات تصل إلى 50% على الأجهزة المنزلية" },
                 new Banner { Id = 2, Image = "https://images.unsplash.com/photo-1607082349566-187342175e2f?auto=format&fit=crop&w=1600&q=80", Title = "مهرجان التخفيضات", Subtitle = "استمتع بأقوى العروض على الإلكترونيات" }
+            );
+
+            // Seed AllowedOrigins
+            builder.Entity<AllowedOrigin>().HasData(
+                new AllowedOrigin { Id = 1, Url = "http://localhost:3000" }
             );
         }
     }
