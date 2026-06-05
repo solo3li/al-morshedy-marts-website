@@ -1,0 +1,35 @@
+@model IEnumerable<BackendAPI.Models.CartItem>
+@{
+    ViewData["Title"] = "سلات التسوق";
+}
+
+<div class="mb-3 text-end">
+    <a href="/Admin/CartItems/Create" class="btn btn-primary"><i class="bi bi-cart-plus"></i> إضافة عنصر للسلة</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>المستخدم</th>
+                <th>المنتج</th>
+                <th>الكمية</th>
+                <th>إجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model)
+            {
+                <tr>
+                    <td>@(item.User?.FullName ?? item.UserId)</td>
+                    <td>@(item.Product?.Name ?? item.ProductId.ToString())</td>
+                    <td>@item.Quantity</td>
+                    <td>
+                        <a href="/Admin/CartItems/Edit/@item.Id" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                        <a href="/Admin/CartItems/Delete/@item.Id" class="btn btn-sm btn-outline-danger" onclick="return confirm('تأكيد الحذف؟')"><i class="bi bi-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,27 @@
+@model BackendAPI.Models.Banner
+@{
+    ViewData["Title"] = "إضافة بانر";
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-body">
+        <form method="post" action="/Admin/Banners/Create">
+            <div class="mb-3">
+                <label class="form-label">العنوان</label>
+                <input type="text" name="Title" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">العنوان الفرعي</label>
+                <input type="text" name="Subtitle" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">رابط الصورة</label>
+                <input type="url" name="Image" class="form-control" required />
+            </div>
+            <div class="text-end">
+                <a href="/Admin/Banners" class="btn btn-secondary">إلغاء</a>
+                <button type="submit" class="btn btn-primary">حفظ</button>
+            </div>
+        </form>
+    </div>
+</div>

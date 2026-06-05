@@ -1,0 +1,40 @@
+@model BackendAPI.Models.ApplicationUser
+@{
+    ViewData["Title"] = "تعديل مستخدم";
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-body">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                @foreach (var modelState in ViewData.ModelState.Values)
+                {
+                    foreach (var error in modelState.Errors)
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                }
+            </div>
+        }
+        <form method="post" action="/Admin/Users/Edit/@Model.Id">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <div class="mb-3">
+                <label class="form-label">الاسم الكامل</label>
+                <input type="text" name="FullName" value="@Model.FullName" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">الإيميل</label>
+                <input type="email" name="Email" value="@Model.Email" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label">رقم الهاتف</label>
+                <input type="text" name="PhoneNumber" value="@Model.PhoneNumber" class="form-control" />
+            </div>
+            <div class="text-end">
+                <a href="/Admin/Users" class="btn btn-secondary">إلغاء</a>
+                <button type="submit" class="btn btn-primary">حفظ التعديلات</button>
+            </div>
+        </form>
+    </div>
+</div>
