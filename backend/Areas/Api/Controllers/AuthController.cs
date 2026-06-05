@@ -6,6 +6,7 @@ namespace BackendAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Area("Api")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;

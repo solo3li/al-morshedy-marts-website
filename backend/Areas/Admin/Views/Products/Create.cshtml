@@ -1,0 +1,52 @@
+@model BackendAPI.Models.Product
+@{
+    ViewData["Title"] = "إضافة منتج";
+    var categories = ViewBag.Categories as IEnumerable<BackendAPI.Models.Category>;
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-body">
+        <form method="post" action="/Admin/Products/Create">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">الاسم</label>
+                    <input type="text" name="Name" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">الماركة</label>
+                    <input type="text" name="Brand" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">السعر</label>
+                    <input type="number" step="0.01" name="Price" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">السعر القديم (اختياري)</label>
+                    <input type="number" step="0.01" name="OldPrice" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">رابط الصورة</label>
+                    <input type="url" name="Image" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">القسم</label>
+                    <select name="CategoryId" class="form-select" required>
+                        <option value="">-- اختر القسم --</option>
+                        @foreach(var cat in categories!)
+                        {
+                            <option value="@cat.Id">@cat.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">شارة (مثال: جديد)</label>
+                    <input type="text" name="Badge" class="form-control" />
+                </div>
+                <div class="col-12 mt-4 text-end">
+                    <a href="/Admin/Products" class="btn btn-secondary">إلغاء</a>
+                    <button type="submit" class="btn btn-primary">حفظ المنتج</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

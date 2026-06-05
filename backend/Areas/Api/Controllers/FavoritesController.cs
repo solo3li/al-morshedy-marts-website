@@ -9,6 +9,7 @@ namespace BackendAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [Area("Api")]
     public class FavoritesController : ControllerBase
     {
         private readonly IFavoriteService _favoriteService;

@@ -1,0 +1,29 @@
+@model BackendAPI.Models.Category
+@{
+    ViewData["Title"] = "إضافة قسم";
+}
+
+<div class="card shadow-sm max-w-2xl mx-auto">
+    <div class="card-body">
+        <form method="post" action="/Admin/Categories/Create">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">الاسم</label>
+                    <input type="text" name="Name" class="form-control" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">الأيقونة (مثال: Home)</label>
+                    <input type="text" name="Icon" class="form-control" required />
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label">رابط الصورة</label>
+                    <input type="url" name="Image" class="form-control" required />
+                </div>
+                <div class="col-12 mt-4 text-end">
+                    <a href="/Admin/Categories" class="btn btn-secondary">إلغاء</a>
+                    <button type="submit" class="btn btn-primary">حفظ القسم</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

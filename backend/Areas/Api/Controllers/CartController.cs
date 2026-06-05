@@ -9,6 +9,7 @@ namespace BackendAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [Area("Api")]
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;

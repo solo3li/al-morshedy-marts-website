@@ -39,6 +39,13 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Configure Application Cookie for Admin Panel
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Admin/Auth/Login";
+    options.AccessDeniedPath = "/Admin/Auth/AccessDenied";
+});
+
 // Services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -48,7 +55,7 @@ builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
 // Controllers & CORS
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
@@ -74,6 +81,9 @@ app.UseCors("AllowFrontend");
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllers();
 
 // Seed data for InMemoryDatabase
@@ -81,6 +91,15 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     context.Database.EnsureCreated();
+
+    // Create Admin User
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    if (userManager.FindByEmailAsync("admin@eshak.com").Result == null)
+    {
+        var admin = new ApplicationUser { UserName = "admin@eshak.com", Email = "admin@eshak.com", FullName = "Admin User" };
+        userManager.CreateAsync(admin, "Admin123!").Wait();
+    }
+
     if (!context.Products.Any())
     {
         context.Categories.Add(new BackendAPI.Models.Category { Name = "أجهزة منزلية", Icon = "Home", Image = "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=300&q=80" });
