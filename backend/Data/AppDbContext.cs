@@ -17,6 +17,8 @@ namespace BackendAPI.Data
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<AllowedOrigin> AllowedOrigins { get; set; }
         public DbSet<SystemSetting> SystemSettings { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
