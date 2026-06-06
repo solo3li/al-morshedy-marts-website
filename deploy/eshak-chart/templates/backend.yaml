@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-backend
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.backend.port }}
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-backend
+spec:
+  selector:
+    app: {{ .Chart.Name }}-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: {{ .Values.backend.port }}

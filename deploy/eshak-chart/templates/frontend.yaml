@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}-frontend
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: "{{ .Values.frontend.image }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.frontend.port }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Chart.Name }}-frontend
+spec:
+  selector:
+    app: {{ .Chart.Name }}-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: {{ .Values.frontend.port }}
