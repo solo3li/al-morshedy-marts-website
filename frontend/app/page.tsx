@@ -1,12 +1,13 @@
+export const dynamic = 'force-dynamic';
 import { HeroSlider } from '../src/components/HeroSlider';
 import { CategoryList } from '../src/components/CategoryList';
 import { ProductSection } from '../src/components/ProductSection';
 
 export default async function HomePage() {
   const [banners, categories, products] = await Promise.all([
-    fetch('http://localhost:5256/api/banners', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
-    fetch('http://localhost:5256/api/categories', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
-    fetch('http://localhost:5256/api/products', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch('http://eshak-backend/api/banners', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch('http://eshak-backend/api/categories', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch('http://eshak-backend/api/products', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
   ]);
 
   return (

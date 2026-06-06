@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:5256/api';
+export const API_BASE_URL = typeof window !== 'undefined' ? '/api' : 'http://eshak-backend/api';
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   let token = null;

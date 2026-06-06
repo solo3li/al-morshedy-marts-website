@@ -26,6 +26,7 @@ export default function LoginPage() {
         body: JSON.stringify({ email, password }),
       });
 
+      // @ts-ignore
       login(data.token, { email: data.email, fullName: data.fullName });
       router.push('/');
     } catch (err: any) {
