@@ -17,9 +17,14 @@ namespace BackendAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] int? categoryId)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(
+            [FromQuery] int? categoryId, 
+            [FromQuery] decimal? minPrice, 
+            [FromQuery] decimal? maxPrice, 
+            [FromQuery] string? search, 
+            [FromQuery] string? sort)
         {
-            var products = await _productService.GetProductsAsync(categoryId);
+            var products = await _productService.GetProductsAsync(categoryId, minPrice, maxPrice, search, sort);
             return Ok(products);
         }
 
