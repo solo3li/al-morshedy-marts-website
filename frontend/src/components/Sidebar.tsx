@@ -71,23 +71,23 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
             
             <div className="my-4 border-t border-gray-100"></div>
 
-            <a 
-              href="#" 
+            <Link 
+              href="/about" 
               onClick={onClose}
               className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-red-50 text-gray-700 hover:text-red-600 transition-colors"
             >
               <Info className="w-5 h-5" />
               <span className="font-medium">من نحن</span>
-            </a>
+            </Link>
 
-            <a 
-              href="#" 
+            <Link 
+              href="/contact" 
               onClick={onClose}
               className="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-red-50 text-gray-700 hover:text-red-600 transition-colors"
             >
               <Phone className="w-5 h-5" />
               <span className="font-medium">اتصل بنا</span>
-            </a>
+            </Link>
           </nav>
         </div>
 
