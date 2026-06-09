@@ -10,6 +10,7 @@ namespace BackendAPI.Services
         Task AddToCartAsync(string userId, CartItem cartItem);
         Task<bool> UpdateQuantityAsync(string userId, int id, int quantity);
         Task<bool> RemoveFromCartAsync(string userId, int id);
+        Task ClearCartAsync(string userId);
     }
 
     public class CartService : ICartService
@@ -61,6 +62,13 @@ namespace BackendAPI.Services
             _context.CartItems.Remove(item);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task ClearCartAsync(string userId)
+        {
+            var items = await _context.CartItems.Where(c => c.UserId == userId).ToListAsync();
+            _context.CartItems.RemoveRange(items);
+            await _context.SaveChangesAsync();
         }
     }
 }

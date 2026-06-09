@@ -46,3 +46,11 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   
   return null;
 }
+
+export async function createOrder(orderData: any) {
+  return fetchApi('/orders', {
+    method: 'POST',
+    body: JSON.stringify(orderData)
+  });
+}
+
