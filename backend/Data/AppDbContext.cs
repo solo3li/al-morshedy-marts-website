@@ -26,24 +26,24 @@ namespace BackendAPI.Data
 
             // Seed Categories
             builder.Entity<Category>().HasData(
-                new Category { Id = 1, Name = "أجهزة منزلية", Icon = "Home", Image = "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=300&q=80" },
-                new Category { Id = 2, Name = "إلكترونيات وموبايلات", Icon = "Smartphone", Image = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=300&q=80" },
-                new Category { Id = 3, Name = "سوبر ماركت", Icon = "ShoppingBasket", Image = "https://images.unsplash.com/photo-1578916171728-46686eac8d58?auto=format&fit=crop&w=300&q=80" },
-                new Category { Id = 4, Name = "عناية وجمال", Icon = "Sparkles", Image = "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=300&q=80" },
-                new Category { Id = 5, Name = "ألعاب أطفال", Icon = "Gamepad2", Image = "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=300&q=80" },
-                new Category { Id = 6, Name = "أدوات مطبخ", Icon = "Utensils", Image = "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=300&q=80" }
+                new Category { Id = 1, Name = "أجهزة المطبخ", Icon = "ChefHat", Image = "https://loremflickr.com/600/600/blender,kitchen?lock=1" },
+                new Category { Id = 2, Name = "أدوات المائدة والطهي", Icon = "Utensils", Image = "https://loremflickr.com/600/600/cookware?lock=2" },
+                new Category { Id = 3, Name = "أجهزة العناية الشخصية", Icon = "Sparkles", Image = "https://loremflickr.com/600/600/hairdryer?lock=3" },
+                new Category { Id = 4, Name = "مكانس ومعدات تنظيف", Icon = "Wind", Image = "https://loremflickr.com/600/600/vacuum?lock=4" },
+                new Category { Id = 5, Name = "تكييفات ومراوح", Icon = "Fan", Image = "https://loremflickr.com/600/600/fan,cooling?lock=5" },
+                new Category { Id = 6, Name = "مكوات ودفايات", Icon = "Thermometer", Image = "https://loremflickr.com/600/600/iron,appliance?lock=6" }
             );
 
             // Seed Products
             builder.Entity<Product>().HasData(
-                new Product { Id = 1, Name = "مكواة شعر ليكسيكال LHS 5373", Brand = "Lexical", Price = 550, OldPrice = 650, Discount = 15, Image = "/images/products/hair_straightener.png", Rating = 4.8, Reviews = 124, Badge = "الأكثر مبيعاً", CategoryId = 4 },
-                new Product { Id = 2, Name = "فرشاة شعر 1200وات LHD 5080", Brand = "Lexical", Price = 590, OldPrice = null, Discount = null, Image = "/images/products/electric_hair_brush.png", Rating = 4.6, Reviews = 89, CategoryId = 4 },
-                new Product { Id = 3, Name = "كبة أستانلس 3 لتر 400 وات LCH 1915", Brand = "Lexical", Price = 800, OldPrice = 950, Discount = 16, Image = "/images/products/stainless_chopper.png", Rating = 4.9, Reviews = 210, Badge = "عرض خاص", CategoryId = 6 },
-                new Product { Id = 4, Name = "عجان 10 لتر 2000 وات LMD 1865", Brand = "Lexical", Price = 9500, OldPrice = 10500, Discount = 10, Image = "/images/products/stand_mixer.png", Rating = 4.7, Reviews = 45, CategoryId = 6 },
-                new Product { Id = 5, Name = "مكنسة برميل 25 لتر 2200 وات LVC 4002", Brand = "Lexical", Price = 3500, OldPrice = null, Discount = null, Image = "/images/products/vacuum_cleaner.png", Rating = 4.5, Reviews = 67, CategoryId = 1 },
-                new Product { Id = 6, Name = "اير فراير 9 لتر 1800 وات LAF 3060", Brand = "Lexical", Price = 4600, OldPrice = 5200, Discount = 12, Image = "/images/products/air_fryer.png", Rating = 4.8, Reviews = 134, Badge = "وصل حديثاً", CategoryId = 6 },
-                new Product { Id = 7, Name = "ماكينة اسبريسو 850 وات LEM 0602", Brand = "Lexical", Price = 5000, OldPrice = 5800, Discount = 14, Image = "/images/products/espresso_machine.png", Rating = 4.9, Reviews = 88, CategoryId = 6 },
-                new Product { Id = 8, Name = "خلاط ومطحنة 1.5 لتر 500 وات LBL 1520", Brand = "Lexical", Price = 1000, OldPrice = 1200, Discount = 17, Image = "/images/products/glass_blender.png", Rating = 4.3, Reviews = 42, CategoryId = 6 }
+                new Product { Id = 1, Name = "عجان كهربائي احترافي 1200 وات", Brand = "Bosch", Price = 8500, OldPrice = 9500, Discount = 10, Image = "https://loremflickr.com/600/600/mixer,kitchen?lock=10", Rating = 4.8, Reviews = 124, Badge = "الأكثر مبيعاً", CategoryId = 1 },
+                new Product { Id = 2, Name = "قلاية هوائية 8 لتر ديجيتال", Brand = "Philips", Price = 4200, OldPrice = 4800, Discount = 12, Image = "https://loremflickr.com/600/600/airfryer?lock=11", Rating = 4.9, Reviews = 340, CategoryId = 1 },
+                new Product { Id = 3, Name = "طقم حلل جرانيت تركي 10 قطع", Brand = "Neoflam", Price = 3500, OldPrice = 4000, Discount = 12, Image = "https://loremflickr.com/600/600/cookware,pot?lock=12", Rating = 4.7, Reviews = 210, Badge = "عرض خاص", CategoryId = 2 },
+                new Product { Id = 4, Name = "ماكينة حلاقة وتشذيب ذكية لاسلكية", Brand = "Braun", Price = 850, OldPrice = 1100, Discount = 22, Image = "https://loremflickr.com/600/600/shaver,beard?lock=13", Rating = 4.6, Reviews = 89, CategoryId = 3 },
+                new Product { Id = 5, Name = "مكنسة كهربائية برميل 2000 وات قوة شفط عالية", Brand = "Panasonic", Price = 2900, OldPrice = null, Discount = null, Image = "https://loremflickr.com/600/600/vacuumcleaner?lock=14", Rating = 4.5, Reviews = 67, CategoryId = 4 },
+                new Product { Id = 6, Name = "مروحة ستاند عمودية بشاشة تحكم ديجيتال", Brand = "Tornado", Price = 1500, OldPrice = 1800, Discount = 16, Image = "https://loremflickr.com/600/600/standfan?lock=15", Rating = 4.8, Reviews = 134, Badge = "وصل حديثاً", CategoryId = 5 },
+                new Product { Id = 7, Name = "مكواة بخار لاسلكية سهلة الانزلاق", Brand = "Tefal", Price = 1100, OldPrice = 1300, Discount = 15, Image = "https://loremflickr.com/600/600/steamiron?lock=16", Rating = 4.9, Reviews = 88, CategoryId = 6 },
+                new Product { Id = 8, Name = "صانعة قهوة اسبريسو وكابتشينو 15 بار", Brand = "DeLonghi", Price = 5600, OldPrice = 6200, Discount = 9, Image = "https://loremflickr.com/600/600/espresso,coffee?lock=17", Rating = 4.7, Reviews = 42, CategoryId = 1 }
             );
 
             // Seed Banners
