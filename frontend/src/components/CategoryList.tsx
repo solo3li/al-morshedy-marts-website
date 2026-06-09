@@ -1,4 +1,5 @@
 import * as Icons from 'lucide-react';
+import { getImageUrl } from '../utils/api';
 
 interface CategoryListProps {
   categories: any[];
@@ -26,8 +27,9 @@ export function CategoryList({ categories }: CategoryListProps) {
               >
                 <div className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden border-2 border-gray-100 group-hover:border-red-500 transition-colors shadow-sm relative flex items-center justify-center bg-gray-50 mb-3">
                   <img 
-                    src={category.image} 
+                    src={getImageUrl(category.image)} 
                     alt={category.name}
+                    onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }}
                     className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-300"
                   />
                   {IconComponent && (

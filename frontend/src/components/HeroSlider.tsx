@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { getImageUrl } from '../utils/api';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 interface HeroSliderProps {
@@ -31,11 +33,14 @@ export function HeroSlider({ banners }: HeroSliderProps) {
             index === current ? 'opacity-100 z-10' : 'opacity-0 z-0'
           }`}
         >
-          <img
-            src={banner.image}
-            alt={banner.title}
-            className="w-full h-full object-cover"
-          />
+          <div className="absolute inset-0">
+            <img 
+              src={getImageUrl(banner.image)}
+              alt={banner.title}
+              onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }}
+              className="w-full h-full object-cover"
+            />
+          </div>
           <div className="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center px-4">
             <h2 className="text-4xl md:text-6xl font-extrabold text-white mb-4 drop-shadow-md">
               {banner.title}
