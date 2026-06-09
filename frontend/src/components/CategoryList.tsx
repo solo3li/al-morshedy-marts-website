@@ -1,6 +1,7 @@
 'use client';
 
 import * as Icons from 'lucide-react';
+import Link from 'next/link';
 import { getImageUrl } from '../utils/api';
 
 interface CategoryListProps {
@@ -23,7 +24,8 @@ export function CategoryList({ categories }: CategoryListProps) {
             const IconComponent = Icons[category.icon as keyof typeof Icons] as React.ElementType;
             
             return (
-              <div 
+              <Link 
+                href={`/products?categoryId=${category.id}`}
                 key={category.id} 
                 className="flex flex-col items-center flex-shrink-0 cursor-pointer group w-24 md:w-32"
               >
@@ -43,7 +45,7 @@ export function CategoryList({ categories }: CategoryListProps) {
                 <span className="text-sm md:text-base font-medium text-gray-700 text-center group-hover:text-red-600 transition-colors">
                   {category.name}
                 </span>
-              </div>
+              </Link>
             );
           })}
         </div>

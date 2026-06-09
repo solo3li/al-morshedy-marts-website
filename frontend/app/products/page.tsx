@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Filter, Loader2 } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import { ProductCard } from '../../src/components/ProductCard';
 import { fetchApi } from '../../src/utils/api';
 
@@ -10,15 +11,18 @@ export default function ProductsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get('categoryId');
+
   useEffect(() => {
     loadProducts();
-  }, []);
+  }, [categoryId]);
 
   const loadProducts = async () => {
     try {
       setIsLoading(true);
-      // Fetch all products (no category filter for now)
-      const data = await fetchApi('/Products');
+      const endpoint = categoryId ? `/Products?categoryId=${categoryId}` : '/Products';
+      const data = await fetchApi(endpoint);
       setProducts(data);
     } catch (err: any) {
       setError(err.message || 'فشل في تحميل المنتجات.');
