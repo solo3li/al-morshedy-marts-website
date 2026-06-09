@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Loader2, CreditCard, Home, MapPin, Phone } from 'lucide-react';
-import { fetchApi, createOrder } from '../../src/utils/api';
+import { fetchApi, createOrder, getImageUrl } from '../../src/utils/api';
 import { useAuthStore } from '../../src/store/authStore';
 import Link from 'next/link';
 
@@ -200,7 +200,7 @@ export default function CheckoutPage() {
               {cartItems.map(item => (
                 <div key={item.id} className="flex gap-3 text-sm">
                   <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center p-1 shrink-0">
-                    <img src={item.product.image} alt={item.product.name} className="max-w-full max-h-full object-contain" />
+                    <img src={getImageUrl(item.product.image)} alt={item.product.name} className="max-w-full max-h-full object-contain" />
                   </div>
                   <div className="flex-1">
                     <div className="font-medium text-gray-900 line-clamp-1">{item.product.name}</div>

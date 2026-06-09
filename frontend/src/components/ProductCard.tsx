@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Star, ShoppingCart, Heart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { fetchApi } from '../utils/api';
+import { fetchApi, getImageUrl } from '../utils/api';
 import { useAuthStore } from '../store/authStore';
 import { useRouter } from 'next/navigation';
 interface ProductProps {
@@ -95,7 +95,7 @@ export function ProductCard({ product }: ProductProps) {
       {/* Product Image */}
       <div className="relative aspect-square overflow-hidden bg-gray-50 p-4">
         <img 
-          src={product.image} 
+          src={getImageUrl(product.image)} 
           alt={product.name}
           className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
         />

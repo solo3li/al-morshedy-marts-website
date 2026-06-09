@@ -60,3 +60,10 @@ export async function createOrder(orderData: any) {
   });
 }
 
+export function getImageUrl(imagePath: string | null | undefined): string {
+  if (!imagePath) return '/eshk-logo.png'; // Fallback to logo or placeholder
+  if (imagePath.startsWith('http')) return imagePath;
+  if (imagePath.startsWith('/images/')) return `http://localhost:5256${imagePath}`;
+  if (imagePath.startsWith('images/')) return `http://localhost:5256/${imagePath}`;
+  return imagePath;
+}

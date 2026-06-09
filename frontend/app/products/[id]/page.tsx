@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { ShoppingCart, Heart, Star, Shield, Truck, RotateCcw, Loader2 } from 'lucide-react';
-import { fetchApi } from '../../../src/utils/api';
+import { fetchApi, getImageUrl } from '../../../src/utils/api';
 import { useAuthStore } from '../../../src/store/authStore';
 
 export default function ProductDetailsPage() {
@@ -88,14 +88,7 @@ export default function ProductDetailsPage() {
     );
   }
 
-  // To display full URL for the image if it is a relative path. The API url is http://localhost:5256
-  // But usually, we just prepend the backend URL for relative images if not provided by backend properly.
-  // Assuming the backend provides relative path or absolute. Let's use it as is since Next.js Image or img handles it.
-  // Wait, if it's '/images/product.png' and frontend is on port 3000, it will break.
-  // We need to prepend the backend URL if it starts with '/'.
-  const imageUrl = product.image?.startsWith('/') 
-    ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5256') + product.image 
-    : product.image;
+  const imageUrl = getImageUrl(product.image);
 
   return (
     <div className="py-8 px-4 md:px-8 max-w-7xl mx-auto">

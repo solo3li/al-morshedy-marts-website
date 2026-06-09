@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Trash2, ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
-import { fetchApi } from '../../src/utils/api';
+import { fetchApi, getImageUrl } from '../../src/utils/api';
 import { useAuthStore } from '../../src/store/authStore';
 
 export default function CartPage() {
@@ -84,7 +84,7 @@ export default function CartPage() {
               {cartItems.map((item) => (
                 <div key={item.id} className="p-6 border-b border-gray-100 flex gap-4 items-center">
                   <div className="w-24 h-24 bg-gray-50 rounded-lg shrink-0 flex items-center justify-center p-2">
-                    <img src={item.product.image} alt={item.product.name} className="max-w-full max-h-full object-contain" />
+                    <img src={getImageUrl(item.product.image)} alt={item.product.name} className="max-w-full max-h-full object-contain" />
                   </div>
                   <div className="flex-grow">
                     <h3 className="font-bold text-gray-900 line-clamp-2">{item.product.name}</h3>
