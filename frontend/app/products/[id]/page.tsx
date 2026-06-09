@@ -99,6 +99,7 @@ export default function ProductDetailsPage() {
             <img 
               src={imageUrl} 
               alt={product.name} 
+              onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }}
               className="max-w-full max-h-full object-contain drop-shadow-md hover:scale-105 transition-transform duration-300"
             />
           </div>
@@ -108,6 +109,7 @@ export default function ProductDetailsPage() {
                  <img 
                   src={imageUrl} 
                   alt={`Thumb ${i}`} 
+                  onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }}
                   className="w-full h-full object-contain"
                 />
               </div>

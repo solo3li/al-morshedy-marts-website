@@ -97,6 +97,7 @@ export function ProductCard({ product }: ProductProps) {
         <img 
           src={getImageUrl(product.image)} 
           alt={product.name}
+          onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }}
           className="w-full h-full object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300"
         />
       </div>

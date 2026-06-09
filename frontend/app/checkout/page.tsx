@@ -200,7 +200,7 @@ export default function CheckoutPage() {
               {cartItems.map(item => (
                 <div key={item.id} className="flex gap-3 text-sm">
                   <div className="w-12 h-12 bg-gray-50 rounded flex items-center justify-center p-1 shrink-0">
-                    <img src={getImageUrl(item.product.image)} alt={item.product.name} className="max-w-full max-h-full object-contain" />
+                    <img src={getImageUrl(item.product.image)} alt={item.product.name} onError={(e) => { e.currentTarget.src = '/eshk-logo.png'; }} className="max-w-full max-h-full object-contain" />
                   </div>
                   <div className="flex-1">
                     <div className="font-medium text-gray-900 line-clamp-1">{item.product.name}</div>
