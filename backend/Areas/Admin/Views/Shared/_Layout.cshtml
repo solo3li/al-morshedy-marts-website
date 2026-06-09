@@ -74,8 +74,15 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/Admin/Settings/Brevo">
-                                <i class="bi bi-envelope-at me-2"></i> إعدادات الإيميل (Brevo)
+                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Admin/Settings/General") ? "active" : "")" asp-area="Admin" asp-controller="Settings" asp-action="General">
+                                <i class="bi bi-gear-wide"></i>
+                                الإعدادات العامة
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link @(Context.Request.Path.StartsWithSegments("/Admin/Settings/Brevo") ? "active" : "")" asp-area="Admin" asp-controller="Settings" asp-action="Brevo">
+                                <i class="bi bi-envelope"></i>
+                                إعدادات البريد (Brevo)
                             </a>
                         </li>
                         <li class="nav-item">

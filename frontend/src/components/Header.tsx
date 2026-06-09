@@ -96,9 +96,9 @@ export function Header({ onMenuClick }: HeaderProps) {
 
           <nav className="hidden md:flex items-center ml-auto rtl:mr-6 gap-6 font-medium">
             <Link href="/" className="hover:text-red-400 transition py-3">عروض اليوم</Link>
-            <Link href="/products" className="hover:text-red-400 transition py-3">أجهزة منزلية</Link>
-            <Link href="/products" className="hover:text-red-400 transition py-3">أدوات المطبخ</Link>
-            <Link href="/products" className="hover:text-red-400 transition py-3">ديكور المنزل</Link>
+            <Link href="/products" className="hover:text-red-400 transition py-3">كل المنتجات</Link>
+            <Link href="/about" className="hover:text-red-400 transition py-3">من نحن</Link>
+            <Link href="/contact" className="hover:text-red-400 transition py-3">اتصل بنا</Link>
           </nav>
         </div>
       </div>

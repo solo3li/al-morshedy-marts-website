@@ -179,5 +179,65 @@ namespace BackendAPI.Areas.Admin.Controllers
             TempData["Success"] = "تم تحديث إعدادات إرسال الإيميلات (Brevo) بنجاح.";
             return RedirectToAction(nameof(Brevo));
         }
+
+        public async Task<IActionResult> General()
+        {
+            var keys = new[] { 
+                "General_AboutUs", 
+                "General_ContactPhone", 
+                "General_ContactEmail", 
+                "General_ContactAddress",
+                "General_SocialFacebook",
+                "General_SocialWhatsapp",
+                "General_SocialInstagram",
+                "General_SocialMessenger"
+            };
+
+            var settings = await _context.SystemSettings
+                .Where(s => keys.Contains(s.Key))
+                .ToListAsync();
+
+            var model = new Dictionary<string, string>();
+            foreach(var key in keys) model[key] = ""; // Default empty
+            foreach(var s in settings) model[s.Key] = s.Value;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateGeneral(
+            string aboutUs, string contactPhone, string contactEmail, string contactAddress,
+            string socialFacebook, string socialWhatsapp, string socialInstagram, string socialMessenger)
+        {
+            var dict = new Dictionary<string, string>
+            {
+                { "General_AboutUs", aboutUs ?? "" },
+                { "General_ContactPhone", contactPhone ?? "" },
+                { "General_ContactEmail", contactEmail ?? "" },
+                { "General_ContactAddress", contactAddress ?? "" },
+                { "General_SocialFacebook", socialFacebook ?? "" },
+                { "General_SocialWhatsapp", socialWhatsapp ?? "" },
+                { "General_SocialInstagram", socialInstagram ?? "" },
+                { "General_SocialMessenger", socialMessenger ?? "" }
+            };
+
+            foreach(var kv in dict)
+            {
+                var setting = await _context.SystemSettings.FirstOrDefaultAsync(s => s.Key == kv.Key);
+                if (setting != null)
+                {
+                    setting.Value = kv.Value;
+                }
+                else
+                {
+                    _context.SystemSettings.Add(new SystemSetting { Key = kv.Key, Value = kv.Value });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            
+            TempData["Success"] = "تم تحديث الإعدادات العامة بنجاح.";
+            return RedirectToAction(nameof(General));
+        }
     }
 }

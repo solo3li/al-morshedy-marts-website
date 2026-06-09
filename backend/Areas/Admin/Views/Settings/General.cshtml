@@ -1,0 +1,77 @@
+@model Dictionary<string, string>
+@{
+    ViewData["Title"] = "الإعدادات العامة للموقع";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">@ViewData["Title"]</h1>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <form asp-action="UpdateGeneral" method="post">
+            
+            <h4 class="mb-3 text-primary"><i class="bi bi-info-circle"></i> صفحة من نحن</h4>
+            <div class="mb-4">
+                <label for="aboutUs" class="form-label fw-bold">نص "من نحن" (يدعم HTML الأساسي)</label>
+                <textarea class="form-control" id="aboutUs" name="aboutUs" rows="6" placeholder="اكتب نبذة عن المتجر هنا...">@Model["General_AboutUs"]</textarea>
+                <div class="form-text">هذا النص سيظهر في صفحة "من نحن" في المتجر.</div>
+            </div>
+
+            <hr class="my-4" />
+
+            <h4 class="mb-3 text-primary"><i class="bi bi-telephone"></i> معلومات الاتصال</h4>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="contactPhone" class="form-label fw-bold">رقم الهاتف</label>
+                    <input type="text" class="form-control" id="contactPhone" name="contactPhone" value="@Model["General_ContactPhone"]" dir="ltr">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="contactEmail" class="form-label fw-bold">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" id="contactEmail" name="contactEmail" value="@Model["General_ContactEmail"]" dir="ltr">
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="contactAddress" class="form-label fw-bold">العنوان</label>
+                    <input type="text" class="form-control" id="contactAddress" name="contactAddress" value="@Model["General_ContactAddress"]">
+                </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <h4 class="mb-3 text-primary"><i class="bi bi-share"></i> روابط التواصل الاجتماعي</h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="socialFacebook" class="form-label fw-bold"><i class="bi bi-facebook text-primary"></i> رابط صفحة الفيسبوك</label>
+                    <input type="url" class="form-control" id="socialFacebook" name="socialFacebook" value="@Model["General_SocialFacebook"]" dir="ltr" placeholder="https://facebook.com/yourpage">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="socialInstagram" class="form-label fw-bold"><i class="bi bi-instagram text-danger"></i> رابط الانستجرام</label>
+                    <input type="url" class="form-control" id="socialInstagram" name="socialInstagram" value="@Model["General_SocialInstagram"]" dir="ltr" placeholder="https://instagram.com/yourpage">
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="socialWhatsapp" class="form-label fw-bold"><i class="bi bi-whatsapp text-success"></i> رقم الواتساب (مع الكود الدولي)</label>
+                    <input type="text" class="form-control" id="socialWhatsapp" name="socialWhatsapp" value="@Model["General_SocialWhatsapp"]" dir="ltr" placeholder="+201000000000">
+                    <div class="form-text">سيتم تحويل العميل للدردشة المباشرة عند الضغط عليه.</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="socialMessenger" class="form-label fw-bold"><i class="bi bi-messenger text-primary"></i> رابط الماسنجر</label>
+                    <input type="url" class="form-control" id="socialMessenger" name="socialMessenger" value="@Model["General_SocialMessenger"]" dir="ltr" placeholder="https://m.me/yourpage">
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary px-4 py-2">
+                    <i class="bi bi-save"></i> حفظ الإعدادات العامة
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
