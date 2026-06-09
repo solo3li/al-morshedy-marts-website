@@ -31,7 +31,13 @@ export async function fetchApi(endpoint: string, options: RequestInit = {}) {
     let errorMessage = 'An error occurred while fetching data';
     try {
       const errorData = await response.json();
-      errorMessage = errorData.message || errorData.title || errorMessage;
+      if (Array.isArray(errorData)) {
+        errorMessage = errorData.map((e: any) => e.description || e).join(', ');
+      } else if (errorData.errors) {
+        errorMessage = Object.values(errorData.errors).flat().join(', ');
+      } else {
+        errorMessage = errorData.message || errorData.title || errorMessage;
+      }
     } catch {
       errorMessage = response.statusText;
     }
