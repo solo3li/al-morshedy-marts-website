@@ -16,19 +16,7 @@ bool connectionFailed = false;
 
 if (!string.IsNullOrEmpty(connectionString) && !connectionString.Equals("InMemory", StringComparison.OrdinalIgnoreCase))
 {
-    try
-    {
-        // Try to connect before setting up EF Core
-        using var conn = new Npgsql.NpgsqlConnection(connectionString);
-        conn.Open(); 
-        usePostgres = true; 
-    }
-    catch (System.Exception)
-    {
-        // Connection failed! Fallback to InMemory
-        usePostgres = false;
-        connectionFailed = true;
-    }
+    usePostgres = true;
 }
 
 builder.Services.AddSingleton(new BackendAPI.Models.DatabaseState { IsPostgres = usePostgres, ConnectionFailed = connectionFailed });
