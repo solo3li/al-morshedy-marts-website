@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin } from 'lucide-react';
+import Link from 'next/link';
 
 export function Footer() {
   return (
@@ -46,11 +47,9 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-bold text-gray-800 mb-4">روابط سريعة</h4>
             <ul className="space-y-3 text-sm text-gray-600">
-              <li><a href="#" className="hover:text-red-600 transition">من نحن</a></li>
-              <li><a href="#" className="hover:text-red-600 transition">الوظائف</a></li>
-              <li><a href="#" className="hover:text-red-600 transition">بيع على عشك</a></li>
-              <li><a href="#" className="hover:text-red-600 transition">الشروط والأحكام</a></li>
-              <li><a href="#" className="hover:text-red-600 transition">سياسة الخصوصية</a></li>
+              <li><Link href="/about" className="hover:text-red-600 transition">من نحن</Link></li>
+              <li><Link href="#" className="hover:text-red-600 transition">الشروط والأحكام</Link></li>
+              <li><Link href="#" className="hover:text-red-600 transition">سياسة الخصوصية</Link></li>
             </ul>
           </div>
 
