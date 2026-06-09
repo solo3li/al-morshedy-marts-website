@@ -5,11 +5,13 @@ import Link from 'next/link';
 import { Trash2, ShoppingCart, ArrowRight, Loader2 } from 'lucide-react';
 import { fetchApi, getImageUrl } from '../../src/utils/api';
 import { useAuthStore } from '../../src/store/authStore';
+import { useShopStore } from '../../src/store/shopStore';
 
 export default function CartPage() {
   const [cartItems, setCartItems] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated } = useAuthStore();
+  const { setCartCount } = useShopStore();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,7 +24,9 @@ export default function CartPage() {
   const loadCart = async () => {
     try {
       const data = await fetchApi('/cart');
-      setCartItems(data || []);
+      const items = data || [];
+      setCartItems(items);
+      setCartCount(items.length);
     } catch (error) {
       console.error('Error loading cart', error);
     } finally {

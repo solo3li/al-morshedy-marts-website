@@ -3,6 +3,9 @@
 import { Search, ShoppingCart, User, Heart, Menu, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { useAuthStore } from '../store/authStore';
+import { useShopStore } from '../store/shopStore';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 
 interface HeaderProps {
@@ -11,6 +14,29 @@ interface HeaderProps {
 
 export function Header({ onMenuClick }: HeaderProps) {
   const { user, isAuthenticated, logout } = useAuthStore();
+  const { cartCount, favoritesCount, categories, fetchCartCount, fetchFavoritesCount, fetchCategories } = useShopStore();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+
+  useEffect(() => {
+    fetchCategories();
+    if (isAuthenticated) {
+      fetchCartCount();
+      fetchFavoritesCount();
+    }
+  }, [isAuthenticated, fetchCategories, fetchCartCount, fetchFavoritesCount]);
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim() && !selectedCategory) return;
+    
+    let url = '/products?';
+    if (searchQuery.trim()) url += `search=${encodeURIComponent(searchQuery.trim())}&`;
+    if (selectedCategory) url += `category=${selectedCategory}`;
+    
+    router.push(url);
+  };
 
   return (
     <header className="w-full bg-white shadow-sm">
@@ -34,21 +60,28 @@ export function Header({ onMenuClick }: HeaderProps) {
 
         {/* Search Bar */}
         <div className="flex-grow max-w-2xl w-full">
-          <div className="relative flex w-full">
-            <select className="hidden md:block bg-gray-50 border border-gray-300 text-gray-700 py-2 px-3 rounded-r-md focus:outline-none focus:border-red-500 border-l-0">
-              <option>كل الفئات</option>
-              <option>أجهزة منزلية</option>
-              <option>أدوات المطبخ</option>
+          <form onSubmit={handleSearch} className="relative flex w-full">
+            <select 
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="hidden md:block bg-gray-50 border border-gray-300 text-gray-700 py-2 px-3 rounded-r-md focus:outline-none focus:border-red-500 border-l-0"
+            >
+              <option value="">كل الفئات</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>{cat.name}</option>
+              ))}
             </select>
             <input
               type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="ابحث عن المنتجات، العلامات التجارية..."
               className="w-full border border-gray-300 py-2 px-4 focus:outline-none focus:border-red-500 rounded-md md:rounded-r-none"
             />
-            <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-l-md transition flex items-center justify-center absolute left-0 top-0 bottom-0 border border-red-600">
+            <button type="submit" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-l-md transition flex items-center justify-center absolute left-0 top-0 bottom-0 border border-red-600">
               <Search className="w-5 h-5" />
             </button>
-          </div>
+          </form>
         </div>
 
         {/* Actions */}
@@ -73,12 +106,16 @@ export function Header({ onMenuClick }: HeaderProps) {
           <Link href="/favorites" className="flex flex-col items-center cursor-pointer hover:text-red-600 transition relative">
             <Heart className="w-6 h-6 text-gray-700" />
             <span className="text-xs font-medium mt-1">المفضلة</span>
-            <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">0</span>
+            {favoritesCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{favoritesCount}</span>
+            )}
           </Link>
           <Link href="/cart" className="flex flex-col items-center cursor-pointer hover:text-red-600 transition relative">
             <ShoppingCart className="w-6 h-6 text-gray-700" />
             <span className="text-xs font-medium mt-1">عربة التسوق</span>
-            <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">2</span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">{cartCount}</span>
+            )}
           </Link>
         </div>
       </div>
@@ -96,9 +133,12 @@ export function Header({ onMenuClick }: HeaderProps) {
 
           <nav className="hidden md:flex items-center ml-auto rtl:mr-6 gap-6 font-medium">
             <Link href="/" className="hover:text-red-400 transition py-3">عروض اليوم</Link>
+            {categories.slice(0, 4).map((cat) => (
+              <Link key={cat.id} href={`/products?category=${cat.id}`} className="hover:text-red-400 transition py-3">
+                {cat.name}
+              </Link>
+            ))}
             <Link href="/products" className="hover:text-red-400 transition py-3">كل المنتجات</Link>
-            <Link href="/about" className="hover:text-red-400 transition py-3">من نحن</Link>
-            <Link href="/contact" className="hover:text-red-400 transition py-3">اتصل بنا</Link>
           </nav>
         </div>
       </div>

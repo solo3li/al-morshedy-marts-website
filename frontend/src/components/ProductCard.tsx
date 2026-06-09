@@ -5,6 +5,7 @@ import { Star, ShoppingCart, Heart, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { fetchApi, getImageUrl } from '../utils/api';
 import { useAuthStore } from '../store/authStore';
+import { useShopStore } from '../store/shopStore';
 import { useRouter } from 'next/navigation';
 interface ProductProps {
   product: {
@@ -25,6 +26,7 @@ export function ProductCard({ product }: ProductProps) {
   const [isAddingCart, setIsAddingCart] = useState(false);
   const [isAddingFav, setIsAddingFav] = useState(false);
   const { isAuthenticated } = useAuthStore();
+  const { incrementCart, incrementFavorites } = useShopStore();
   const router = useRouter();
 
   const handleAddToCart = async () => {
@@ -39,6 +41,7 @@ export function ProductCard({ product }: ProductProps) {
         method: 'POST',
         body: JSON.stringify({ productId: product.id, quantity: 1 })
       });
+      incrementCart();
       alert('تمت الإضافة إلى عربة التسوق بنجاح!');
     } catch (error) {
       alert('حدث خطأ أثناء الإضافة للعربة');
@@ -58,6 +61,7 @@ export function ProductCard({ product }: ProductProps) {
       await fetchApi(`/favorites/${product.id}`, {
         method: 'POST'
       });
+      incrementFavorites();
       alert('تمت الإضافة إلى المفضلة بنجاح!');
     } catch (error) {
       alert('حدث خطأ أثناء الإضافة للمفضلة');

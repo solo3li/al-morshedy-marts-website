@@ -5,12 +5,14 @@ import { ProductSection } from '../../src/components/ProductSection';
 import { Heart, Loader2 } from 'lucide-react';
 import { fetchApi } from '../../src/utils/api';
 import { useAuthStore } from '../../src/store/authStore';
+import { useShopStore } from '../../src/store/shopStore';
 import Link from 'next/link';
 
 export default function FavoritesPage() {
   const [favorites, setFavorites] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { isAuthenticated } = useAuthStore();
+  const { setFavoritesCount } = useShopStore();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -23,7 +25,9 @@ export default function FavoritesPage() {
   const loadFavorites = async () => {
     try {
       const data = await fetchApi('/favorites');
-      setFavorites(data || []);
+      const items = data || [];
+      setFavorites(items);
+      setFavoritesCount(items.length);
     } catch (error) {
       console.error('Error loading favorites', error);
     } finally {
