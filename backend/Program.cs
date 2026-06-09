@@ -82,7 +82,7 @@ builder.Services.AddScoped<IBannerService, BannerService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
-builder.Services.AddScoped<BackendAPI.Services.IImageService, BackendAPI.Services.CloudinaryImageService>();
+builder.Services.AddScoped<BackendAPI.Services.IImageService, BackendAPI.Services.LocalImageService>();
 builder.Services.AddSingleton<BackendAPI.Services.IEmailService, BackendAPI.Services.BrevoEmailService>();
 
 // Controllers & CORS
@@ -108,6 +108,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
