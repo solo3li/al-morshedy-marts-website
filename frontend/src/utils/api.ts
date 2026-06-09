@@ -1,4 +1,6 @@
-export const API_BASE_URL = typeof window !== 'undefined' ? '/api' : 'http://eshak-backend/api';
+const isProd = process.env.NODE_ENV === 'production';
+const defaultBackend = isProd ? 'http://eshak-backend' : 'http://localhost:5256';
+export const API_BASE_URL = typeof window !== 'undefined' ? '/api' : (process.env.BACKEND_URL || defaultBackend) + '/api';
 
 export async function fetchApi(endpoint: string, options: RequestInit = {}) {
   let token = null;

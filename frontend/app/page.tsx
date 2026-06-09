@@ -4,10 +4,14 @@ import { CategoryList } from '../src/components/CategoryList';
 import { ProductSection } from '../src/components/ProductSection';
 
 export default async function HomePage() {
+  const isProd = process.env.NODE_ENV === 'production';
+  const defaultBackend = isProd ? 'http://eshak-backend' : 'http://localhost:5256';
+  const backendUrl = process.env.BACKEND_URL || defaultBackend;
+
   const [banners, categories, products] = await Promise.all([
-    fetch('http://eshak-backend/api/banners', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
-    fetch('http://eshak-backend/api/categories', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
-    fetch('http://eshak-backend/api/products', { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch(`${backendUrl}/api/banners`, { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch(`${backendUrl}/api/categories`, { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
+    fetch(`${backendUrl}/api/products`, { next: { revalidate: 60 } }).then(res => res.ok ? res.json() : []),
   ]);
 
   return (
