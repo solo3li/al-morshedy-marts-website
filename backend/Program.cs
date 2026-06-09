@@ -86,7 +86,10 @@ builder.Services.AddScoped<BackendAPI.Services.IImageService, BackendAPI.Service
 builder.Services.AddSingleton<BackendAPI.Services.IEmailService, BackendAPI.Services.BrevoEmailService>();
 
 // Controllers & CORS
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+});
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
