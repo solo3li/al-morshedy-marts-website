@@ -1,7 +1,0 @@
-domain: "eshak.68.183.13.154.nip.io"
-backend:
-  image: "eshak-backend:latest"
-  port: 8080
-frontend:
-  image: "eshak-frontend:latest"
-  port: 3000
